@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DataApp">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f1923">
+<title>Дані — Універсальний CRUD</title>
+<style>
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Arial, sans-serif;
+  --bg: #0f1923;
+  --bg2: #172533;
+  --bg3: #1e3044;
+  --accent: #4fc3f7;
+  --accent-dim: #2980b9;
+  --green: #4caf50;
+  --red: #ef5350;
+  --orange: #ffa726;
+  --text: #eceff1;
+  --text2: #90a4ae;
+  --text3: #546e7a;
+  --border: rgba(255,255,255,0.07);
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --radius: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+body { font-family:var(--font); background:var(--bg); color:var(--text); min-height:100vh; -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%; }
+
+/* ===== SETUP SCREEN ===== */
+#setupScreen, #appScreen { display:none; }
+#setupScreen.active, #appScreen.active { display:block; }
+
+.setup-box {
+  max-width:500px; margin:60px auto; padding:30px 24px; text-align:center;
+}
+.setup-box h1 { font-size:24px; font-weight:700; margin-bottom:8px; }
+.setup-box p { font-size:14px; color:var(--text2); line-height:1.6; margin-bottom:24px; }
+.setup-input {
+  width:100%; background:var(--bg2); border:1.5px solid var(--border); border-radius:8px;
+  padding:14px 16px; color:var(--text); font-size:14px; font-family:var(--font);
+  outline:none; -webkit-appearance:none; margin-bottom:12px;
+  transition: border-color 0.2s;
+}
+.setup-input:focus { border-color:var(--accent); }
+.setup-input::placeholder { color:var(--text3); }
+.setup-btn {
+  width:100%; background:linear-gradient(135deg, var(--accent-dim), var(--accent));
+  border:none; color:#fff; font-size:15px; font-weight:700; padding:14px;
+  border-radius:8px; cursor:pointer; -webkit-appearance:none;
+  touch-action:manipulation; transition:opacity 0.2s;
+}
+.setup-btn:active { opacity:0.8; transform:scale(0.98); }
+.setup-hint { font-size:11px; color:var(--text3); margin-top:16px; line-height:1.6; }
+
+/* ===== APP HEADER ===== */
+.app-header {
+  background:var(--bg2); padding:14px 16px; display:flex; align-items:center;
+  gap:12px; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
+}
+.app-title { font-size:16px; font-weight:700; flex:1; }
+.header-btn {
+  background:rgba(255,255,255,0.08); border:none; color:var(--text2); font-size:18px;
+  width:36px; height:36px; border-radius:8px; cursor:pointer; display:flex;
+  align-items:center; justify-content:center; -webkit-appearance:none;
+  touch-action:manipulation; transition:background 0.2s;
+}
+.header-btn:active { background:rgba(255,255,255,0.15); }
+.header-btn.accent { background:var(--accent); color:#fff; }
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  padding:8px 16px; font-size:12px; color:var(--text3); display:flex;
+  justify-content:space-between; align-items:center; border-bottom:1px solid var(--border);
+}
+.status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+.status-dot.online { background:var(--green); }
+.status-dot.offline { background:var(--red); }
+.status-dot.syncing { background:var(--orange); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ===== DATA TABLE ===== */
+.container { max-width:800px; margin:0 auto; padding:12px; }
+
+.data-card {
+  background:var(--bg2); border-radius:var(--radius); margin-bottom:10px;
+  border:1px solid var(--border); overflow:hidden; transition:border-color 0.2s;
+}
+.data-card:active { border-color:var(--accent); }
+
+.card-header {
+  padding:12px 16px; display:flex; align-items:center; gap:10px;
+  cursor:pointer; -webkit-tap-highlight-color:rgba(79,195,247,0.1);
+  touch-action:manipulation;
+}
+.card-id { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.5px; background:rgba(79,195,247,0.1); padding:2px 8px; border-radius:4px; }
+.card-title { flex:1; font-size:14px; font-weight:600; }
+.card-time { font-size:11px; color:var(--text3); }
+.card-chevron { color:var(--text3); font-size:12px; transition:transform 0.2s; }
+.data-card.open .card-chevron { transform:rotate(180deg); }
+
+.card-body {
+  max-height:0; overflow:hidden; transition:max-height 0.3s ease;
+}
+.data-card.open .card-body { max-height:2000px; }
+
+.card-field {
+  padding:8px 16px; display:flex; border-top:1px solid var(--border);
+}
+.field-label { font-size:11px; color:var(--text3); width:110px; flex-shrink:0; padding-top:2px; text-transform:uppercase; letter-spacing:0.5px; }
+.field-value { font-size:13px; color:var(--text); flex:1; word-break:break-word; }
+
+.card-actions {
+  padding:10px 16px; display:flex; gap:8px; border-top:1px solid var(--border);
+}
+.card-btn {
+  flex:1; padding:9px; border:none; border-radius:6px; font-size:12px;
+  font-weight:600; cursor:pointer; -webkit-appearance:none; touch-action:manipulation;
+  text-transform:uppercase; letter-spacing:0.5px; transition:opacity 0.2s;
+}
+.card-btn:active { opacity:0.7; transform:scale(0.97); }
+.card-btn.edit { background:rgba(79,195,247,0.15); color:var(--accent); }
+.card-btn.delete { background:rgba(239,83,80,0.15); color:var(--red); }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align:center; padding:60px 20px; color:var(--text3);
+}
+.empty-state .icon { font-size:48px; margin-bottom:16px; }
+.empty-state p { font-size:14px; line-height:1.6; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.7); z-index:200; display:none;
+  align-items:flex-end; justify-content:center;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+}
+.modal-overlay.show { display:flex; }
+
+.modal {
+  background:var(--bg2); width:100%; max-width:600px; max-height:85vh;
+  border-radius:16px 16px 0 0; padding:0; overflow-y:auto;
+  animation:slideUp 0.3s ease;
+}
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+
+.modal-header {
+  padding:16px 20px; display:flex; align-items:center;
+  border-bottom:1px solid var(--border); position:sticky; top:0;
+  background:var(--bg2); z-index:1;
+}
+.modal-title { flex:1; font-size:16px; font-weight:700; }
+.modal-close {
+  background:none; border:none; color:var(--text3); font-size:22px;
+  cursor:pointer; -webkit-appearance:none; padding:4px 8px;
+}
+
+.modal-body { padding:16px 20px; }
+
+.form-group { margin-bottom:16px; }
+.form-label { display:block; font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; font-weight:600; margin-bottom:6px; }
+.form-input {
+  width:100%; background:var(--bg); border:1.5px solid var(--border);
+  border-radius:8px; padding:12px 14px; color:var(--text); font-size:14px;
+  font-family:var(--font); outline:none; -webkit-appearance:none;
+  -webkit-user-select:text; user-select:text; transition:border-color 0.2s;
+}
+.form-input:focus { border-color:var(--accent); }
+textarea.form-input { min-height:80px; resize:vertical; line-height:1.5; }
+
+.modal-footer {
+  padding:12px 20px 24px; display:flex; gap:10px;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+}
+.modal-btn {
+  flex:1; padding:14px; border:none; border-radius:8px; font-size:14px;
+  font-weight:700; cursor:pointer; -webkit-appearance:none; touch-action:manipulation;
+  transition:opacity 0.2s;
+}
+.modal-btn:active { opacity:0.8; transform:scale(0.98); }
+.modal-btn.cancel { background:rgba(255,255,255,0.08); color:var(--text2); }
+.modal-btn.save { background:linear-gradient(135deg, var(--accent-dim), var(--accent)); color:#fff; }
+.modal-btn.danger { background:var(--red); color:#fff; }
+
+/* ===== TOAST ===== */
+.toast {
+  position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+  background:var(--bg3); color:var(--text); padding:12px 24px; border-radius:8px;
+  font-size:13px; font-weight:600; z-index:300; box-shadow:var(--shadow);
+  opacity:0; transition:opacity 0.3s; pointer-events:none;
+}
+.toast.show { opacity:1; }
+
+/* ===== LOADING ===== */
+.loading { text-align:center; padding:40px; color:var(--text3); }
+.spinner { display:inline-block; width:24px; height:24px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:380px) {
+  .card-header { padding:10px 12px; }
+  .card-field { padding:6px 12px; }
+  .field-label { width:90px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== SETUP SCREEN ===== -->
+<div id="setupScreen" class="active">
+  <div class="setup-box">
+    <h1>⚙️ Налаштування</h1>
+    <p>Вставте URL вашого Google Apps Script веб-додатку.<br>Він має вигляд: <code>https://script.google.com/macros/s/.../exec</code></p>
+    <input type="url" class="setup-input" id="apiUrlInput" placeholder="https://script.google.com/macros/s/ваш-id/exec" autocomplete="off" spellcheck="false">
+    <button class="setup-btn" id="connectBtn">🔗 Підключитися</button>
+    <div class="setup-hint">
+      URL зберігається тільки на вашому телефоні.<br>
+      Інструкція: створіть Google Таблицю → Розширення → Apps Script → вставте код → Deploy → Web app
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP SCREEN ===== -->
+<div id="appScreen">
+  <!-- Header -->
+  <div class="app-header">
+    <div class="app-title">📋 Дані</div>
+    <button class="header-btn" id="refreshBtn" title="Оновити">🔄</button>
+    <button class="header-btn accent" id="addBtn" title="Додати">＋</button>
+    <button class="header-btn" id="settingsBtn" title="Налаштування">⚙️</button>
+  </div>
+
+  <!-- Status -->
+  <div class="status-bar">
+    <div><span class="status-dot" id="statusDot"></span><span id="statusText">—</span></div>
+    <div id="countText">0 записів</div>
+  </div>
+
+  <!-- Content -->
+  <div class="container" id="dataContainer">
+    <div class="loading"><div class="spinner"></div><br>Завантаження...</div>
+  </div>
+</div>
+
+<!-- ===== MODAL: Add/Edit ===== -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Новий запис</div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Dynamic form fields -->
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn cancel" id="modalCancel">Скасувати</button>
+      <button class="modal-btn save" id="modalSave">💾 Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: Confirm Delete ===== -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="border-radius:16px; max-width:400px; margin:auto;">
+    <div class="modal-header">
+      <div class="modal-title">⚠️ Видалити запис?</div>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text2); font-size:14px; line-height:1.6;">Цю дію неможливо відмінити. Запис буде видалено з бази даних.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn cancel" id="deleteCancel">Скасувати</button>
+      <button class="modal-btn danger" id="deleteConfirm">🗑️ Видалити</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== STATE =====
+  var API_URL = '';
+  var headers = [];
+  var rows = [];
+  var editingRow = null; // null = new, object = editing
+  var deletingRowIndex = null;
+
+  // System fields that are auto-managed
+  var SYSTEM_FIELDS = ['id', 'createdAt', 'updatedAt', '_rowIndex'];
+
+  // ===== iOS tap fix =====
+  function addTap(el, handler) {
+    if (!el) return;
+    var fired = false;
+    el.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      if (!fired) { fired = true; handler(e); setTimeout(function(){ fired=false; }, 300); }
+    }, { passive: false });
+    el.addEventListener('click', function(e) {
+      if (!fired) handler(e);
+      fired = false;
+    });
+  }
+
+  // ===== STORAGE =====
+  function saveApiUrl(url) {
+    try { localStorage.setItem('crud_api_url', url); } catch(e) {}
+  }
+  function loadApiUrl() {
+    try { return localStorage.getItem('crud_api_url') || ''; } catch(e) { return ''; }
+  }
+
+  // ===== TOAST =====
+  function showToast(msg, duration) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, duration || 3000);
+  }
+
+  // ===== STATUS =====
+  function setStatus(state, text) {
+    var dot = document.getElementById('statusDot');
+    var txt = document.getElementById('statusText');
+    dot.className = 'status-dot ' + state;
+    txt.textContent = text;
+  }
+
+  // ===== API CALLS =====
+  function apiCall(data) {
+    setStatus('syncing', 'Синхронізація...');
+    return fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(result) {
+      if (result.success) {
+        setStatus('online', 'Підключено');
+      } else {
+        setStatus('offline', 'Помилка: ' + (result.error || ''));
+      }
+      return result;
+    })
+    .catch(function(err) {
+      setStatus('offline', 'Офлайн');
+      throw err;
+    });
+  }
+
+  // ===== LOAD DATA =====
+  function loadData() {
+    var container = document.getElementById('dataContainer');
+    container.innerHTML = '<div class="loading"><div class="spinner"></div><br>Завантаження...</div>';
+
+    apiCall({ action: 'read' })
+      .then(function(result) {
+        if (result.success) {
+          headers = result.headers || [];
+          rows = result.rows || [];
+          document.getElementById('countText').textContent = rows.length + ' записів';
+          renderData();
+        } else {
+          container.innerHTML = '<div class="empty-state"><div class="icon">❌</div><p>Помилка: ' + (result.error || 'невідома') + '</p></div>';
+        }
+      })
+      .catch(function(err) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📡</div><p>Немає з\'єднання з сервером.<br>Перевірте інтернет та URL.</p></div>';
+      });
+  }
+
+  // ===== RENDER DATA =====
+  function renderData() {
+    var container = document.getElementById('dataContainer');
+
+    if (rows.length === 0) {
+      container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Немає даних.<br>Натисніть ＋ щоб додати перший запис.</p></div>';
+      return;
+    }
+
+    var html = '';
+    // Determine display field (first non-system field)
+    var displayField = '';
+    for (var h = 0; h < headers.length; h++) {
+      if (SYSTEM_FIELDS.indexOf(headers[h]) === -1) { displayField = headers[h]; break; }
+    }
+
+    for (var i = rows.length - 1; i >= 0; i--) {
+      var row = rows[i];
+      var id = row.id || row._rowIndex || (i + 1);
+      var title = displayField ? (row[displayField] || '—') : ('Запис #' + id);
+      var time = row.updatedAt ? formatDate(row.updatedAt) : (row.createdAt ? formatDate(row.createdAt) : '');
+
+      html += '<div class="data-card" data-idx="' + i + '">';
+      html += '<div class="card-header">';
+      html += '<span class="card-id">#' + id + '</span>';
+      html += '<span class="card-title">' + escapeHtml(String(title)) + '</span>';
+      html += '<span class="card-time">' + time + '</span>';
+      html += '<span class="card-chevron">▼</span>';
+      html += '</div>';
+      html += '<div class="card-body">';
+
+      for (var j = 0; j < headers.length; j++) {
+        if (headers[j] === '_rowIndex') continue;
+        var val = row[headers[j]];
+        if (val === null || val === undefined) val = '';
+        html += '<div class="card-field">';
+        html += '<div class="field-label">' + escapeHtml(headers[j]) + '</div>';
+        html += '<div class="field-value">' + escapeHtml(String(val)) + '</div>';
+        html += '</div>';
+      }
+
+      html += '<div class="card-actions">';
+      html += '<button class="card-btn edit" data-idx="' + i + '">✏️ Редагувати</button>';
+      html += '<button class="card-btn delete" data-idx="' + i + '">🗑️ Видалити</button>';
+      html += '</div>';
+      html += '</div></div>';
+    }
+
+    container.innerHTML = html;
+
+    // Bind card toggle
+    container.querySelectorAll('.card-header').forEach(function(header) {
+      addTap(header, function() {
+        header.parentElement.classList.toggle('open');
+      });
+    });
+
+    // Bind edit buttons
+    container.querySelectorAll('.card-btn.edit').forEach(function(btn) {
+      addTap(btn, function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.getAttribute('data-idx'));
+        openEditModal(rows[idx]);
+      });
+    });
+
+    // Bind delete buttons
+    container.querySelectorAll('.card-btn.delete').forEach(function(btn) {
+      addTap(btn, function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.getAttribute('data-idx'));
+        openDeleteModal(rows[idx]._rowIndex);
+      });
+    });
+  }
+
+  // ===== EDIT MODAL =====
+  function openEditModal(row) {
+    editingRow = row || null;
+    var isNew = !editingRow;
+    document.getElementById('modalTitle').textContent = isNew ? '➕ Новий запис' : '✏️ Редагування';
+
+    var body = document.getElementById('modalBody');
+    var fieldsHtml = '';
+
+    if (isNew && headers.length === 0) {
+      // First record ever — ask for field names
+      fieldsHtml += '<div class="form-group">';
+      fieldsHtml += '<label class="form-label">Назви полів (через кому)</label>';
+      fieldsHtml += '<input class="form-input" id="newFieldNames" placeholder="назва, опис, статус, відповідальний" value="id, назва, опис, статус, createdAt, updatedAt">';
+      fieldsHtml += '</div>';
+      fieldsHtml += '<p style="color:var(--text3); font-size:12px; margin-bottom:12px;">Введіть назви полів для вашої таблиці. Поля id, createdAt, updatedAt заповнюються автоматично.</p>';
+    }
+
+    var fields = headers.length > 0 ? headers : [];
+
+    for (var i = 0; i < fields.length; i++) {
+      var f = fields[i];
+      if (f === '_rowIndex') continue;
+      var isSystem = SYSTEM_FIELDS.indexOf(f) >= 0;
+      var val = editingRow ? (editingRow[f] || '') : '';
+
+      if (isSystem && isNew) continue; // Don't show system fields for new records
+      if (isSystem && !isNew) {
+        // Show system fields as read-only
+        fieldsHtml += '<div class="form-group">';
+        fieldsHtml += '<label class="form-label">' + escapeHtml(f) + ' (авто)</label>';
+        fieldsHtml += '<input class="form-input" value="' + escapeHtml(String(val)) + '" disabled style="opacity:0.5">';
+        fieldsHtml += '</div>';
+        continue;
+      }
+
+      fieldsHtml += '<div class="form-group">';
+      fieldsHtml += '<label class="form-label">' + escapeHtml(f) + '</label>';
+      if (String(val).length > 60) {
+        fieldsHtml += '<textarea class="form-input" data-field="' + escapeHtml(f) + '">' + escapeHtml(String(val)) + '</textarea>';
+      } else {
+        fieldsHtml += '<input class="form-input" data-field="' + escapeHtml(f) + '" value="' + escapeHtml(String(val)) + '">';
+      }
+      fieldsHtml += '</div>';
+    }
+
+    body.innerHTML = fieldsHtml;
+    document.getElementById('editModal').classList.add('show');
+  }
+
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('show');
+    editingRow = null;
+  }
+
+  function saveRecord() {
+    // Check if first-time setup
+    var newFieldsEl = document.getElementById('newFieldNames');
+    if (newFieldsEl && newFieldsEl.value.trim()) {
+      headers = newFieldsEl.value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+      closeEditModal();
+      openEditModal(null); // Reopen with actual fields
+      return;
+    }
+
+    var rowData = {};
+    document.querySelectorAll('#modalBody [data-field]').forEach(function(input) {
+      rowData[input.getAttribute('data-field')] = input.value;
+    });
+
+    var isNew = !editingRow;
+
+    if (isNew) {
+      apiCall({ action: 'create', row: rowData })
+        .then(function(result) {
+          if (result.success) {
+            showToast('✅ Запис додано');
+            closeEditModal();
+            loadData();
+          } else {
+            showToast('❌ Помилка: ' + result.error);
+          }
+        })
+        .catch(function() { showToast('❌ Немає з\'єднання'); });
+    } else {
+      apiCall({ action: 'update', _rowIndex: editingRow._rowIndex, row: rowData })
+        .then(function(result) {
+          if (result.success) {
+            showToast('✅ Запис оновлено');
+            closeEditModal();
+            loadData();
+          } else {
+            showToast('❌ Помилка: ' + result.error);
+          }
+        })
+        .catch(function() { showToast('❌ Немає з\'єднання'); });
+    }
+  }
+
+  // ===== DELETE MODAL =====
+  function openDeleteModal(rowIndex) {
+    deletingRowIndex = rowIndex;
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+    deletingRowIndex = null;
+  }
+
+  function confirmDelete() {
+    if (!deletingRowIndex) return;
+    apiCall({ action: 'delete', _rowIndex: deletingRowIndex })
+      .then(function(result) {
+        if (result.success) {
+          showToast('🗑️ Запис видалено');
+          closeDeleteModal();
+          loadData();
+        } else {
+          showToast('❌ Помилка: ' + result.error);
+        }
+      })
+      .catch(function() { showToast('❌ Немає з\'єднання'); });
+  }
+
+  // ===== HELPERS =====
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function formatDate(isoStr) {
+    try {
+      var d = new Date(isoStr);
+      if (isNaN(d.getTime())) return isoStr;
+      return d.toLocaleDateString('uk-UA', {day:'2-digit', month:'2-digit'}) + ' ' +
+             d.toLocaleTimeString('uk-UA', {hour:'2-digit', minute:'2-digit'});
+    } catch(e) { return isoStr; }
+  }
+
+  // ===== INIT =====
+  var savedUrl = loadApiUrl();
+  if (savedUrl) {
+    API_URL = savedUrl;
+    document.getElementById('setupScreen').classList.remove('active');
+    document.getElementById('appScreen').classList.add('active');
+    loadData();
+  }
+
+  // ===== BINDINGS =====
+
+  // Setup screen
+  addTap(document.getElementById('connectBtn'), function() {
+    var url = document.getElementById('apiUrlInput').value.trim();
+    if (!url || !url.startsWith('https://script.google.com/')) {
+      showToast('❌ Невірний URL. Має починатися з https://script.google.com/');
+      return;
+    }
+    API_URL = url;
+    saveApiUrl(url);
+    document.getElementById('setupScreen').classList.remove('active');
+    document.getElementById('appScreen').classList.add('active');
+    loadData();
+  });
+
+  // App buttons
+  addTap(document.getElementById('refreshBtn'), function() { loadData(); });
+  addTap(document.getElementById('addBtn'), function() { openEditModal(null); });
+  addTap(document.getElementById('settingsBtn'), function() {
+    if (confirm('Змінити URL підключення?\nПоточний: ' + API_URL.substring(0, 60) + '...')) {
+      API_URL = '';
+      try { localStorage.removeItem('crud_api_url'); } catch(e) {}
+      document.getElementById('appScreen').classList.remove('active');
+      document.getElementById('setupScreen').classList.add('active');
+      document.getElementById('apiUrlInput').value = '';
+    }
+  });
+
+  // Edit modal
+  addTap(document.getElementById('modalClose'), closeEditModal);
+  addTap(document.getElementById('modalCancel'), closeEditModal);
+  addTap(document.getElementById('modalSave'), saveRecord);
+
+  // Delete modal
+  addTap(document.getElementById('deleteCancel'), closeDeleteModal);
+  addTap(document.getElementById('deleteConfirm'), confirmDelete);
+
+  // Close modals on overlay tap
+  addTap(document.getElementById('editModal'), function(e) {
+    if (e.target === document.getElementById('editModal')) closeEditModal();
+  });
+  addTap(document.getElementById('deleteModal'), function(e) {
+    if (e.target === document.getElementById('deleteModal')) closeDeleteModal();
+  });
+
+})();
+</script>
+</body>
+</html>
