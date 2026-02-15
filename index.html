@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Богдана">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1e2e">
+<title>Щоденний огляд 2С22 «Богдана»</title>
+
+<!-- Inline PWA manifest - will be replaced by JS for better Android support -->
+<link rel="manifest" id="manifestLink" href="data:application/json;base64,eyJuYW1lIjoi0KnQvtC00LXQvdC90LjQuSDQvtCz0LvRj9C0INCR0L7Qs9C00LDQvdCwIiwic2hvcnRfbmFtZSI6ItCR0L7Qs9C00LDQvdCwIiwiZGlzcGxheSI6ImZ1bGxzY3JlZW4iLCJzdGFydF91cmwiOiIuLyIsImJhY2tncm91bmRfY29sb3IiOiIjMWExZTJlIiwidGhlbWVfY29sb3IiOiIjMWExZTJlIn0=">
+<script>
+// Generate proper manifest blob for Android Chrome fullscreen PWA
+(function() {
+  var manifest = {
+    name: "Щоденний огляд Богдана",
+    short_name: "Богдана",
+    display: "fullscreen",
+    orientation: "portrait",
+    start_url: "./",
+    background_color: "#1a1e2e",
+    theme_color: "#1a1e2e",
+    icons: [{
+      src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjM4IiBmaWxsPSIjMWExZTJlIi8+PHRleHQgeD0iOTYiIHk9Ijc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNTAiIGZpbGw9IiNkNGE4NDMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj4y0KEyMjwvdGV4dD48dGV4dCB4PSI5NiIgeT0iMTI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM5NWE1YTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPtCn0LXQui3Qu9GW0YHRgjwvdGV4dD48L3N2Zz4=",
+      sizes: "192x192",
+      type: "image/svg+xml"
+    }, {
+      src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzFhMWUyZSIvPjx0ZXh0IHg9IjI1NiIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTMwIiBmaWxsPSIjZDRhODQzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iYm9sZCI+MtChMjI8L3RleHQ+PHRleHQgeD0iMjU2IiB5PSIzMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI1NSIgZmlsbD0iIzk1YTVhNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+0KfQtdC6LdC70ZbRgdGCPC90ZXh0Pjwvc3ZnPg==",
+      sizes: "512x512",
+      type: "image/svg+xml"
+    }]
+  };
+  try {
+    var blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.getElementById('manifestLink');
+    if (link) link.href = url;
+  } catch(e) {}
+})();
+</script>
+
+<!-- Inline SVG icon for apple-touch-icon -->
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjM2IiBmaWxsPSIjMWExZTJlIi8+PHRleHQgeD0iOTAiIHk9IjcwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNTAiIGZpbGw9IiNkNGE4NDMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj4y0KEyMjwvdGV4dD48dGV4dCB4PSI5MCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiM5NWE1YTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPtCn0LXQui3Qu9GW0YHRgjwvdGV4dD48L3N2Zz4=">
+
+<style>
+:root {
+  --font-heading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  --bg-dark: #1a1e2e;
+  --bg-card: #232840;
+  --bg-card-hover: #2a3050;
+  --accent-gold: #d4a843;
+  --accent-gold-dim: #a07e30;
+  --accent-red: #c0392b;
+  --accent-red-light: #e74c3c;
+  --accent-green: #27ae60;
+  --accent-green-light: #2ecc71;
+  --accent-blue: #2980b9;
+  --accent-blue-light: #3498db;
+  --accent-orange: #e67e22;
+  --text-primary: #ecf0f1;
+  --text-secondary: #95a5a6;
+  --text-dim: #7f8c8d;
+  --border-subtle: rgba(255,255,255,0.08);
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  /* iOS safe area */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  /* iOS: prevent text selection on rapid taps */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(212,168,67,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== iOS Safari fix: make all interactive elements tappable ===== */
+button, .check-item, .category-header, .tab-btn {
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(212,168,67,0.15);
+  touch-action: manipulation;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  padding: 30px 16px 24px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+}
+
+.header-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-gold-dim), var(--accent-gold));
+  color: var(--bg-dark);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.header h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.header h1 span {
+  color: var(--accent-gold);
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ===== INSTALL BANNER ===== */
+.install-banner {
+  background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(212,168,67,0.05));
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: none;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.install-banner.show {
+  display: flex;
+}
+
+.install-banner-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.install-banner-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.install-banner-text strong {
+  color: var(--accent-gold);
+}
+
+.install-banner-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 20px;
+  flex-shrink: 0;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-section {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.progress-count {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.progress-count span {
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-gold-dim), var(--accent-gold));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.progress-status {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.progress-status.complete {
+  color: var(--accent-green);
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tabs {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 10px;
+  padding: 3px;
+  /* iOS fix: ensure tappable */
+  position: relative;
+  z-index: 2;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 11px 8px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  /* iOS Safari fix */
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.tab-btn:active {
+  transform: scale(0.97);
+}
+
+.tab-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-gold);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.tab-emoji {
+  font-size: 18px;
+}
+
+.tab-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.tab-count {
+  font-size: 10px;
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.tab-btn.active .tab-count {
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+}
+
+/* ===== SECTIONS ===== */
+.section-panel {
+  display: none;
+}
+
+.section-panel.active {
+  display: block;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CATEGORY CARDS ===== */
+.category {
+  background: var(--bg-card);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.category.all-checked {
+  border-color: var(--accent-green);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 12px;
+  transition: background 0.15s ease;
+}
+
+.cat-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  margin: -6px -10px -6px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(212,168,67,0.15);
+  touch-action: manipulation;
+  transition: background 0.15s ease;
+}
+
+.cat-toggle:active {
+  background: rgba(255,255,255,0.08);
+}
+
+.cat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cat-icon.crit { background: rgba(192,57,43,0.2); color: var(--accent-red-light); }
+.cat-icon.warn { background: rgba(230,126,34,0.2); color: var(--accent-orange); }
+.cat-icon.info { background: rgba(41,128,185,0.2); color: var(--accent-blue-light); }
+
+.cat-info { flex: 1; min-width: 0; }
+
+.cat-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.cat-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.cat-progress {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.cat-progress .done {
+  color: var(--accent-green);
+}
+
+.cat-chevron {
+  color: var(--text-dim);
+  transition: transform 0.3s ease;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.category.open .cat-chevron {
+  transform: rotate(180deg);
+}
+
+/* ===== CHECKLIST ITEMS ===== */
+.cat-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.category.open .cat-body {
+  max-height: 3000px;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-subtle);
+  transition: background 0.15s ease, opacity 0.3s ease;
+  /* iOS Safari: CRITICAL fix for tap events */
+  -webkit-tap-highlight-color: rgba(39,174,96,0.1);
+}
+
+.check-item:active {
+  background: rgba(255,255,255,0.03);
+}
+
+.check-item.checked {
+  opacity: 0.45;
+}
+
+.check-item.checked .check-text {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: transparent;
+  /* iOS: prevent zoom on double tap */
+  touch-action: manipulation;
+}
+
+.check-item.checked .checkbox {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+}
+
+.check-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  /* Allow text selection for reading */
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.check-text .hint {
+  display: block;
+  font-size: 11px;
+  color: var(--accent-gold-dim);
+  margin-top: 3px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ===== WARNING BOX ===== */
+.warning-box {
+  background: rgba(192,57,43,0.1);
+  border-left: 3px solid var(--accent-red);
+  padding: 12px 14px;
+  margin: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--accent-red-light);
+}
+
+.warning-box strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ===== RESET BUTTON ===== */
+.reset-section {
+  text-align: center;
+  padding: 24px 0 40px;
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1.5px solid var(--text-dim);
+  color: var(--text-dim);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.reset-btn:active {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  transform: scale(0.97);
+}
+
+/* ===== REPORT SECTION ===== */
+.report-section {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 20px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.report-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-field {
+  margin-bottom: 14px;
+}
+
+.report-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.report-input {
+  width: 100%;
+  background: rgba(0,0,0,0.25);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  /* Allow text input */
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.report-input:focus {
+  border-color: var(--accent-gold);
+}
+
+.report-input::placeholder {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+textarea.report-input {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.report-callsign-saved {
+  font-size: 11px;
+  color: var(--accent-green);
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.report-callsign-saved.show {
+  opacity: 1;
+}
+
+.send-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent-gold-dim), var(--accent-gold));
+  color: var(--bg-dark);
+  border: none;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: all 0.2s ease;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.send-btn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.send-btn:disabled {
+  opacity: 0.4;
+  transform: none;
+}
+
+.send-btn-icon {
+  font-size: 18px;
+}
+
+.report-preview {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  display: none;
+  border: 1px dashed var(--border-subtle);
+}
+
+.report-preview.show {
+  display: block;
+}
+
+.report-preview-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.report-fallback {
+  display: none;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.report-fallback.show {
+  display: block;
+}
+
+.copy-btn {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-subtle);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:active {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+  transform: scale(0.97);
+}
+
+.report-hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 16px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 380px) {
+  .container { padding: 10px; }
+  .header h1 { font-size: 24px; }
+  .tab-label { font-size: 9px; }
+}
+
+@media print {
+  body { background: white; color: #222; }
+  .tabs, .progress-section, .reset-section, .footer, .install-banner { display: none !important; }
+  .section-panel { display: block !important; }
+  .cat-body { max-height: 3000px !important; }
+  .category { break-inside: avoid; border: 1px solid #ccc; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- INSTALL BANNER -->
+  <div class="install-banner" id="installBanner">
+    <div class="install-banner-icon">📲</div>
+    <div class="install-banner-text" id="installBannerText">
+      <strong>Встановити як додаток:</strong><br>
+      <span id="installInstructions"></span>
+    </div>
+    <button class="install-banner-close" onclick="closeBanner()">✕</button>
+  </div>
+
+  <!-- FULLSCREEN BUTTON (shows only in browser, not in PWA) -->
+  <div id="fullscreenBar" style="display:none; text-align:center; margin-bottom:12px;">
+    <button id="fullscreenBtn" style="
+      background: linear-gradient(135deg, rgba(212,168,67,0.2), rgba(212,168,67,0.1));
+      border: 1.5px solid rgba(212,168,67,0.4);
+      color: var(--accent-gold);
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(212,168,67,0.15);
+    ">⛶ На весь екран</button>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">Пам'ятка екіпажу</div>
+    <h1>Щоденний огляд<br><span>2С22 «Богдана»</span></h1>
+    <div class="header-subtitle">Чек-лист контрольного огляду<br>Артилерійська частина + Шасі TATRA PHOENIX 8×8</div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-top">
+      <div class="progress-label">Прогрес огляду</div>
+      <div class="progress-count"><span id="checkedCount">0</span> <span>/ <span id="totalCount">0</span></span></div>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-status" id="progressStatus">ОГЛЯД НЕ РОЗПОЧАТО</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabsBar">
+    <button class="tab-btn active" data-tab="art">
+      <span class="tab-emoji">🎯</span>
+      <span class="tab-label">Артчастина</span>
+      <span class="tab-count" id="artTabCount">0/0</span>
+    </button>
+    <button class="tab-btn" data-tab="chassis">
+      <span class="tab-emoji">🚛</span>
+      <span class="tab-label">Шасі</span>
+      <span class="tab-count" id="chassisTabCount">0/0</span>
+    </button>
+    <button class="tab-btn" data-tab="ammo">
+      <span class="tab-emoji">💥</span>
+      <span class="tab-label">Боєприпаси</span>
+      <span class="tab-count" id="ammoTabCount">0/0</span>
+    </button>
+  </div>
+
+  <!-- ====== АРТИЛЕРІЙСЬКА ЧАСТИНА ====== -->
+  <div class="section-panel active" id="panel-art">
+
+    <div class="category open" data-cat="barrel">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon crit">⚙️</div>
+        <div class="cat-info">
+          <div class="cat-title">Ствол і затвор</div>
+          <div class="cat-subtitle">Критичне · Перед кожним використанням</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="barrel">0</span>/<span data-total="barrel">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="warning-box">
+          <strong>⚠️ УВАГА</strong>
+          Стрільба без видалення мастила з каналу ствола ЗАБОРОНЕНА — загроза роздуття!
+        </div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Канал ствола — чистий, без пошкоджень та сторонніх предметів<span class="hint">Візуально зі сторони казенника</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Ексцентрикове кільце — без ушкоджень, отвори чисті<span class="hint">Зазор ≤0,05мм, щуп 0,06мм не проходить</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Обтюраційне кільце — чисте, без ушкоджень, вільно стає в гніздо</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Затвор — напівавтоматичне відкриття/закриття працює<span class="hint">Клин до крайнього нижнього положення, фіксується замком</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Ударно-спусковий механізм — кріплення, стан, чистота<span class="hint">Без сторонніх предметів під бойком</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Дульне гальмо — без пошкоджень, чохол знятий перед стрільбою</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="recoil">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon crit">🔧</div>
+        <div class="cat-info">
+          <div class="cat-title">Противідкотні пристрої</div>
+          <div class="cat-subtitle">Критичне · Гальмо відкоту + накатник</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="recoil">0</span>/<span data-total="recoil">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Відсутність витоків рідини з гальма відкоту та накатника</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Тиск в накатнику — в нормі<span class="hint">Перевірити манометром перед стрільбою</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Тиск у механізмі врівноважувальному — в нормі</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">З'єднання труби з гальмом і накатником — надійно</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="hydro">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon warn">💧</div>
+        <div class="cat-info">
+          <div class="cat-title">Гідросистема та наведення</div>
+          <div class="cat-subtitle">Важливе · 15 гідроциліндрів</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="hydro">0</span>/<span data-total="hydro">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Рівень оливи в маслобаку гідросистеми — в нормі<span class="hint">При необхідності додати до норми</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Відсутність течі з гідросистеми</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">КВП — коробка відбору потужності вмикається</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Механізм повороту та підйому — працюють справно</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Зовнішні пошкодження апаратури гідросистеми — відсутні</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="sight">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon info">🔭</div>
+        <div class="cat-info">
+          <div class="cat-title">Прицільні пристрої</div>
+          <div class="cat-subtitle">Стандартне · Приціл + панорама ПГ-1</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="sight">0</span>/<span data-total="sight">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Панорама та приціл — стан, чистота скла, працездатність</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Коліматор — наявний, зачохлений, у кабіні</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="fix">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon warn">🔩</div>
+        <div class="cat-info">
+          <div class="cat-title">Кріплення та фіксація</div>
+          <div class="cat-subtitle">Важливе · Стяжки, ЗІП, похідне</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="fix">0</span>/<span data-total="fix">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Кріплення артчастини до лонжеронів — затягнуті<span class="hint">Особлива увага: стяжки рами арт.частини ↔ рами шасі</span></div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Стопоріння «по-похідному» — надійне</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">ЗІП — комплектний, надійно в ящиках</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Джгути і кабелі — без пошкоджень</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Кронштейн прицілу «по-похідному» — зафіксований</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Радіостанція — кріплення надійне</div></div>
+        <div class="check-item" data-group="art" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Чохли — на місці, без поривів</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== ШАСІ TATRA ====== -->
+  <div class="section-panel" id="panel-chassis">
+
+    <div class="category open" data-cat="engine">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon crit">⛽</div>
+        <div class="cat-info">
+          <div class="cat-title">Двигун і рідини</div>
+          <div class="cat-subtitle">Критичне · Перед кожним виїздом</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="engine">0</span>/<span data-total="engine">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Витоки повітря, палива, ОР або олії — відсутні</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Рівень палива — достатній<span class="hint">Витрата ≤75 л/100км, запас ходу до 850км</span></div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Рівень моторної олії — норма</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">AdBlue — рівень в нормі</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Охолоджувальна рідина — рівень в нормі</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Рідина омивача лобового скла</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Повітряний фільтр — індикатор не в червоній зоні<span class="hint">За фільтром у задній частині кабіни. Червоне = замінити!</span></div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="wheels">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon crit">🛞</div>
+        <div class="cat-info">
+          <div class="cat-title">Колеса і гальма</div>
+          <div class="cat-subtitle">Критичне · Шини, тиск, колодки</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="wheels">0</span>/<span data-total="wheels">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Стан та знос шин — в нормі</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Колісні гайки — затягнуті</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Тиск повітря у колесах — норма<span class="hint">Перед стрільбою перевірити додатково</span></div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Гальмівні накладки — в допуску<span class="hint">Контроль через отвори в гальмівному щиті</span></div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="pneum">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon warn">🌬️</div>
+        <div class="cat-info">
+          <div class="cat-title">Пневматика і підвіска</div>
+          <div class="cat-subtitle">Важливе · Ресори, резервуари</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="pneum">0</span>/<span data-total="pneum">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Пневматичні ресори — без розривів і тріщин</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Випуск конденсату з повітряних резервуарів<span class="hint">Тяговий рух за кільця клапанів</span></div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Амортизатори — герметичні (візуально)</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="steer">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon info">🔄</div>
+        <div class="cat-info">
+          <div class="cat-title">Рульове та сервоуправління</div>
+          <div class="cat-subtitle">Стандартне · Рівень олії, герметичність</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="steer">0</span>/<span data-total="steer">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Олія сервоуправління — між ризками<span class="hint">Під капотом ліворуч. Двигун вимкнений, колеса прямо</span></div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Герметичність гідроконтуру сервоуправління</div></div>
+      </div>
+    </div>
+
+    <div class="category" data-cat="trans">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon info">⚡</div>
+        <div class="cat-info">
+          <div class="cat-title">Трансмісія та електрика</div>
+          <div class="cat-subtitle">Стандартне · КПП, освітлення</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="trans">0</span>/<span data-total="trans">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="warning-box">
+          <strong>⚠️ ПЕРЕД РУХОМ</strong>
+          Вимкнути роздавальну коробку! Виріб розряджений, гальма справні.
+        </div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">КПП та додаткові приводи — стан справний</div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Фари, стопи, повороти, клаксон — працюють<span class="hint">+ склоочисники та омивачі</span></div></div>
+        <div class="check-item" data-group="chassis" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Елементи живлення — без пошкоджень, кріплення до рами</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== БОЄПРИПАСИ ====== -->
+  <div class="section-panel" id="panel-ammo">
+
+    <div class="category open" data-cat="ammo1">
+      <div class="category-header" role="button" tabindex="0">
+        <div class="cat-icon crit">💥</div>
+        <div class="cat-info">
+          <div class="cat-title">Огляд боєприпасів</div>
+          <div class="cat-subtitle">Критичне · 20 снарядів + 20 зарядів</div>
+        </div>
+        <div class="cat-toggle"><div class="cat-progress"><span class="done" data-done="ammo1">0</span>/<span data-total="ammo1">0</span></div>
+        <div class="cat-chevron">▼</div></div>
+      </div>
+      <div class="cat-body">
+        <div class="warning-box">
+          <strong>⚠️ ЗАБОРОНЕНО</strong>
+          Боєприпаси з пошкодженнями або сумнівною якістю — загроза загибелі!
+        </div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Снаряди — без іржі, тріщин, забоїн на провідних поясках<span class="hint">Протерти від мастила, пилу, піску</span></div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Маркування на снарядах — наявне, вагові знаки є</div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Підривники — догвинчені, без тріщин та зім'ятостей<span class="hint">Пошкоджені — до стрільби НЕ допускаються</span></div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Захисні елементи ведучих поясків — видалити перед стрільбою!<span class="hint">Невидалення → заклинювання снаряду!</span></div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Заряди — сухі, без розривів, штатне маркування<span class="hint">ЗАБОРОНЕНО: вологі заряди, різні пороху в одній зоні</span></div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Заряди відсортовані за партіями (однакове маркування)</div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Снаряди і заряди надійно застопорені в ящиках</div></div>
+        <div class="check-item" data-group="ammo" role="checkbox" tabindex="0"><div class="checkbox">✓</div><div class="check-text">Праймери M82 — в наявності, достатня кількість</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REPORT SECTION -->
+  <div class="report-section" id="reportSection">
+    <div class="report-title">📋 Звіт про огляд</div>
+
+    <div class="report-field">
+      <label class="report-label" for="callsignInput">Позивний</label>
+      <input type="text" class="report-input" id="callsignInput" placeholder="Введіть ваш позивний..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <div class="report-callsign-saved" id="callsignSaved">✓ Позивний збережено</div>
+    </div>
+
+    <div class="report-field">
+      <label class="report-label" for="notesInput">Зауваження (необов'язково)</label>
+      <textarea class="report-input" id="notesInput" placeholder="Виявлені недоліки, потреби в запчастинах, інше..."></textarea>
+    </div>
+
+    <div class="report-preview" id="reportPreview">
+      <div class="report-preview-label">👁️ Попередній перегляд звіту:</div>
+      <div id="reportPreviewText"></div>
+    </div>
+
+    <button class="send-btn" id="sendBtn">
+      <span class="send-btn-icon">📤</span>
+      Надіслати звіт
+    </button>
+
+    <div class="report-fallback" id="reportFallback">
+      <button class="copy-btn" id="copyBtn">📋 Скопіювати текст звіту</button>
+    </div>
+
+    <div class="report-hint">Відкриє меню «Поділитися» — оберіть WhatsApp, Signal, Telegram або інший месенджер</div>
+  </div>
+
+  <!-- RESET -->
+  <div class="reset-section">
+    <button class="reset-btn" id="resetBtn">↺ Скинути всі відмітки</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    СО01-04 ДЕП · Інструкція з техконтролю шасі TATRA<br>
+    Для навчання екіпажу · v2.0 PWA
+  </div>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== iOS Safari: use touchend + click for reliable taps =====
+  function addTap(el, handler) {
+    var fired = false;
+    el.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      if (!fired) {
+        fired = true;
+        handler(e);
+        setTimeout(function() { fired = false; }, 300);
+      }
+    }, { passive: false });
+    el.addEventListener('click', function(e) {
+      if (!fired) {
+        handler(e);
+      }
+      fired = false;
+    });
+  }
+
+  // ===== STORAGE =====
+  var STORAGE_KEY = 'bogdana_checklist_v2';
+
+  function saveState() {
+    try {
+      var items = document.querySelectorAll('.check-item');
+      var state = [];
+      items.forEach(function(item, i) {
+        state.push(item.classList.contains('checked') ? 1 : 0);
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      var data = localStorage.getItem(STORAGE_KEY);
+      if (!data) return;
+      var state = JSON.parse(data);
+      var items = document.querySelectorAll('.check-item');
+      items.forEach(function(item, i) {
+        if (state[i]) item.classList.add('checked');
+      });
+    } catch(e) {}
+  }
+
+  // ===== TAB SWITCHING =====
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(function(btn) {
+    addTap(btn, function() {
+      tabBtns.forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.section-panel').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      var panel = document.getElementById('panel-' + btn.getAttribute('data-tab'));
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  // ===== CATEGORY TOGGLE (only right side: progress + chevron) =====
+  document.querySelectorAll('.cat-toggle').forEach(function(toggle) {
+    addTap(toggle, function(e) {
+      e.stopPropagation();
+      toggle.closest('.category').classList.toggle('open');
+    });
+  });
+
+  // ===== CHECKBOX TOGGLE =====
+  document.querySelectorAll('.check-item').forEach(function(item) {
+    addTap(item, function(e) {
+      // Don't toggle if user is selecting text in hint
+      if (window.getSelection && window.getSelection().toString().length > 0) return;
+      item.classList.toggle('checked');
+      updateProgress();
+      saveState();
+      updateReportPreview();
+      // Haptic feedback on iOS if available
+      if (navigator.vibrate) navigator.vibrate(10);
+    });
+  });
+
+  // ===== RESET =====
+  addTap(document.getElementById('resetBtn'), function() {
+    if (confirm('Скинути всі відмітки?')) {
+      document.querySelectorAll('.check-item').forEach(function(item) {
+        item.classList.remove('checked');
+      });
+      updateProgress();
+      saveState();
+      updateReportPreview();
+    }
+  });
+
+  // ===== PROGRESS UPDATE =====
+  function updateProgress() {
+    var allItems = document.querySelectorAll('.check-item');
+    var checkedItems = document.querySelectorAll('.check-item.checked');
+    var total = allItems.length;
+    var done = checkedItems.length;
+
+    document.getElementById('checkedCount').textContent = done;
+    document.getElementById('totalCount').textContent = total;
+
+    var pct = total > 0 ? (done / total * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+
+    var status = document.getElementById('progressStatus');
+    if (done === 0) {
+      status.textContent = 'ОГЛЯД НЕ РОЗПОЧАТО';
+      status.className = 'progress-status';
+    } else if (done < total) {
+      status.textContent = 'ОГЛЯД ВИКОНУЄТЬСЯ... ' + Math.round(pct) + '%';
+      status.className = 'progress-status';
+    } else {
+      status.textContent = '✓ ОГЛЯД ЗАВЕРШЕНО — ГОТОВИЙ';
+      status.className = 'progress-status complete';
+    }
+
+    // Category progress
+    document.querySelectorAll('.category').forEach(function(cat) {
+      var catName = cat.getAttribute('data-cat');
+      var catItems = cat.querySelectorAll('.check-item');
+      var catChecked = cat.querySelectorAll('.check-item.checked');
+      var doneEl = cat.querySelector('[data-done="' + catName + '"]');
+      var totalEl = cat.querySelector('[data-total="' + catName + '"]');
+      if (doneEl) doneEl.textContent = catChecked.length;
+      if (totalEl) totalEl.textContent = catItems.length;
+      if (catChecked.length === catItems.length && catItems.length > 0) {
+        cat.classList.add('all-checked');
+      } else {
+        cat.classList.remove('all-checked');
+      }
+    });
+
+    // Tab counts
+    var groups = { art: { done: 0, total: 0 }, chassis: { done: 0, total: 0 }, ammo: { done: 0, total: 0 } };
+    allItems.forEach(function(item) {
+      var g = item.getAttribute('data-group');
+      if (groups[g]) {
+        groups[g].total++;
+        if (item.classList.contains('checked')) groups[g].done++;
+      }
+    });
+    document.getElementById('artTabCount').textContent = groups.art.done + '/' + groups.art.total;
+    document.getElementById('chassisTabCount').textContent = groups.chassis.done + '/' + groups.chassis.total;
+    document.getElementById('ammoTabCount').textContent = groups.ammo.done + '/' + groups.ammo.total;
+  }
+
+  // ===== INSTALL BANNER + FULLSCREEN =====
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  var isAndroid = /Android/.test(navigator.userAgent);
+  var isStandaloneIOS = window.navigator.standalone === true;
+  var isStandalonePWA = window.matchMedia('(display-mode: fullscreen)').matches ||
+                        window.matchMedia('(display-mode: standalone)').matches ||
+                        isStandaloneIOS;
+
+  function showInstallBanner() {
+    var instructions = document.getElementById('installInstructions');
+    if (isStandalonePWA) return; // Already installed as PWA
+
+    if (isIOS && !isStandaloneIOS) {
+      instructions.innerHTML = 'Натисніть <strong>⎙ Поділитися</strong> → <strong>На Початковий екран</strong> — додаток буде на весь екран офлайн';
+      document.getElementById('installBanner').classList.add('show');
+    } else if (isAndroid) {
+      instructions.innerHTML = 'Натисніть <strong>⋮ меню</strong> → <strong>Додати на головний екран</strong> — відкриватиметься на весь екран як додаток';
+      document.getElementById('installBanner').classList.add('show');
+    }
+  }
+
+  window.closeBanner = function() {
+    document.getElementById('installBanner').classList.remove('show');
+    try { sessionStorage.setItem('banner_closed', '1'); } catch(e) {}
+  };
+
+  // ===== FULLSCREEN API (for Android browser before PWA install) =====
+  function setupFullscreen() {
+    if (isStandalonePWA) return; // PWA already fullscreen
+
+    var fsBar = document.getElementById('fullscreenBar');
+    var fsBtn = document.getElementById('fullscreenBtn');
+    var el = document.documentElement;
+
+    // Check if Fullscreen API is available
+    var canFullscreen = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+    if (!canFullscreen) return;
+
+    fsBar.style.display = 'block';
+
+    function goFullscreen() {
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+
+    function exitFullscreen() {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+    }
+
+    function isFullscreen() {
+      return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+    }
+
+    addTap(fsBtn, function() {
+      if (isFullscreen()) {
+        exitFullscreen();
+      } else {
+        goFullscreen();
+      }
+    });
+
+    // Update button text on fullscreen change
+    function onFsChange() {
+      if (isFullscreen()) {
+        fsBtn.textContent = '⛶ Вийти з повного екрану';
+        fsBar.style.position = 'fixed';
+        fsBar.style.top = '8px';
+        fsBar.style.left = '0';
+        fsBar.style.right = '0';
+        fsBar.style.zIndex = '9999';
+      } else {
+        fsBtn.textContent = '⛶ На весь екран';
+        fsBar.style.position = '';
+        fsBar.style.top = '';
+        fsBar.style.zIndex = '';
+      }
+    }
+
+    document.addEventListener('fullscreenchange', onFsChange);
+    document.addEventListener('webkitfullscreenchange', onFsChange);
+    document.addEventListener('mozfullscreenchange', onFsChange);
+    document.addEventListener('MSFullscreenChange', onFsChange);
+  }
+
+  setupFullscreen();
+
+  // ===== SERVICE WORKER for offline PWA =====
+  if ('serviceWorker' in navigator) {
+    // Create inline service worker
+    var swCode = "self.addEventListener('install',function(e){self.skipWaiting()});self.addEventListener('activate',function(e){e.waitUntil(clients.claim())});self.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(resp){return caches.open('bogdana-v2').then(function(cache){cache.put(e.request,resp.clone());return resp})})}))})";
+    var swBlob = new Blob([swCode], { type: 'application/javascript' });
+    var swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(function() {
+      // Service worker registration may fail for blob URLs in some browsers - that's OK
+      // The app still works, just without offline caching via SW
+    });
+  }
+
+  // ===== CALLSIGN PERSISTENCE =====
+  var callsignInput = document.getElementById('callsignInput');
+  var notesInput = document.getElementById('notesInput');
+  var callsignSaved = document.getElementById('callsignSaved');
+
+  // Load saved callsign
+  try {
+    var savedCallsign = localStorage.getItem('bogdana_callsign');
+    if (savedCallsign) callsignInput.value = savedCallsign;
+  } catch(e) {}
+
+  // Save callsign on change
+  callsignInput.addEventListener('input', function() {
+    try {
+      localStorage.setItem('bogdana_callsign', callsignInput.value);
+      callsignSaved.classList.add('show');
+      setTimeout(function() { callsignSaved.classList.remove('show'); }, 2000);
+    } catch(e) {}
+    updateReportPreview();
+  });
+
+  notesInput.addEventListener('input', function() {
+    updateReportPreview();
+  });
+
+  // ===== REPORT GENERATION =====
+  function generateReport() {
+    var now = new Date();
+    var date = now.toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var time = now.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+    var callsign = callsignInput.value.trim() || '(не вказано)';
+    var notes = notesInput.value.trim();
+
+    // Gather category results
+    var groups = { art: { done: 0, total: 0 }, chassis: { done: 0, total: 0 }, ammo: { done: 0, total: 0 } };
+    var uncheckedItems = [];
+
+    document.querySelectorAll('.check-item').forEach(function(item) {
+      var g = item.getAttribute('data-group');
+      if (groups[g]) {
+        groups[g].total++;
+        if (item.classList.contains('checked')) {
+          groups[g].done++;
+        } else {
+          // Get category name
+          var cat = item.closest('.category');
+          var catTitle = cat ? cat.querySelector('.cat-title').textContent : '';
+          var itemText = item.querySelector('.check-text').childNodes[0].textContent.trim();
+          uncheckedItems.push('  ❌ [' + catTitle + '] ' + itemText);
+        }
+      }
+    });
+
+    var allTotal = groups.art.total + groups.chassis.total + groups.ammo.total;
+    var allDone = groups.art.done + groups.chassis.done + groups.ammo.done;
+
+    var artStatus = groups.art.done === groups.art.total ? '✅' : '⚠️';
+    var chassisStatus = groups.chassis.done === groups.chassis.total ? '✅' : '⚠️';
+    var ammoStatus = groups.ammo.done === groups.ammo.total ? '✅' : '⚠️';
+
+    var overallStatus = allDone === allTotal
+      ? '✅ ВИРІБ ГОТОВИЙ ДО БОЙОВОГО ВИКОРИСТАННЯ'
+      : '⚠️ ОГЛЯД НЕ ЗАВЕРШЕНО (' + allDone + '/' + allTotal + ')';
+
+    var report = '';
+    report += '━━━━━━━━━━━━━━━━━━━━\n';
+    report += '📋 ОГЛЯД 2С22 «БОГДАНА»\n';
+    report += '━━━━━━━━━━━━━━━━━━━━\n';
+    report += '📅 ' + date + ', ' + time + '\n';
+    report += '👤 Позивний: ' + callsign + '\n';
+    report += '\n';
+    report += artStatus + ' Артчастина: ' + groups.art.done + '/' + groups.art.total + '\n';
+    report += chassisStatus + ' Шасі TATRA: ' + groups.chassis.done + '/' + groups.chassis.total + '\n';
+    report += ammoStatus + ' Боєприпаси: ' + groups.ammo.done + '/' + groups.ammo.total + '\n';
+
+    if (uncheckedItems.length > 0) {
+      report += '\n⚠️ НЕ ВИКОНАНО:\n';
+      report += uncheckedItems.join('\n') + '\n';
+    }
+
+    if (notes) {
+      report += '\n📝 Зауваження:\n' + notes + '\n';
+    }
+
+    report += '\n' + overallStatus + '\n';
+    report += '━━━━━━━━━━━━━━━━━━━━';
+
+    return report;
+  }
+
+  // ===== REPORT PREVIEW =====
+  function updateReportPreview() {
+    var preview = document.getElementById('reportPreview');
+    var previewText = document.getElementById('reportPreviewText');
+    previewText.textContent = generateReport();
+    preview.classList.add('show');
+  }
+
+  // Show preview when user starts interacting
+  callsignInput.addEventListener('focus', updateReportPreview);
+  notesInput.addEventListener('focus', updateReportPreview);
+
+  // ===== SEND REPORT =====
+  addTap(document.getElementById('sendBtn'), function() {
+    var report = generateReport();
+
+    // Try Web Share API first (works on iOS Safari, Android Chrome)
+    if (navigator.share) {
+      navigator.share({
+        text: report
+      }).catch(function(err) {
+        // User cancelled or share failed - show copy fallback
+        if (err.name !== 'AbortError') {
+          showCopyFallback(report);
+        }
+      });
+    } else {
+      // Fallback: copy to clipboard
+      showCopyFallback(report);
+    }
+  });
+
+  // ===== COPY FALLBACK =====
+  function showCopyFallback(report) {
+    var fallback = document.getElementById('reportFallback');
+    fallback.classList.add('show');
+    updateReportPreview();
+  }
+
+  addTap(document.getElementById('copyBtn'), function() {
+    var report = generateReport();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(report).then(function() {
+        var btn = document.getElementById('copyBtn');
+        btn.textContent = '✅ Скопійовано!';
+        setTimeout(function() { btn.textContent = '📋 Скопіювати текст звіту'; }, 2000);
+      }).catch(function() {
+        fallbackCopy(report);
+      });
+    } else {
+      fallbackCopy(report);
+    }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand('copy');
+      var btn = document.getElementById('copyBtn');
+      btn.textContent = '✅ Скопійовано!';
+      setTimeout(function() { btn.textContent = '📋 Скопіювати текст звіту'; }, 2000);
+    } catch(e) {
+      alert('Не вдалося скопіювати. Будь ласка, скопіюйте текст з поля попереднього перегляду вручну.');
+      updateReportPreview();
+    }
+    document.body.removeChild(ta);
+  }
+
+  // ===== INIT =====
+  loadState();
+  updateProgress();
+  updateReportPreview();
+
+  if (!sessionStorage.getItem('banner_closed')) {
+    showInstallBanner();
+  }
+
+})();
+</script>
+
+</body>
+</html>
