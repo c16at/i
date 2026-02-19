@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Боєприпаси">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1e2e">
+<title>Облік боєприпасів</title>
+<script>
+(function(){
+  var m={name:"Облік боєприпасів",short_name:"Боєприпаси",display:"fullscreen",orientation:"portrait",start_url:"./",background_color:"#1a1e2e",theme_color:"#1a1e2e",
+    icons:[{src:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjM4IiBmaWxsPSIjMWExZTJlIi8+PHRleHQgeD0iOTYiIHk9IjExNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5OVPC90ZXh0Pjwvc3ZnPg==",sizes:"192x192",type:"image/svg+xml"}]};
+  try{var b=new Blob([JSON.stringify(m)],{type:'application/json'});document.getElementById('ml').href=URL.createObjectURL(b);}catch(e){}
+})();
+</script>
+<link rel="manifest" id="ml">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjM2IiBmaWxsPSIjMWExZTJlIi8+PHRleHQgeD0iOTAiIHk9IjExNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5OVPC90ZXh0Pjwvc3ZnPg==">
+<style>
+:root{
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;
+  --font-h:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
+  --bg:#1a1e2e;--bg-card:#232840;--bg-sub:#1e2438;--bg-input:#141827;
+  --gold:#d4a843;--gold-dim:#a07e30;--gold-bg:rgba(212,168,67,0.10);--gold-bdr:rgba(212,168,67,0.28);
+  --red:#e74c3c;--red-bg:rgba(231,76,60,0.12);--green:#2ecc71;--blue:#3498db;
+  --text:#ecf0f1;--text2:#95a5a6;--text3:#4e5d6c;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.11);
+  --c-shells:#e74c3c;--c-charges:#e67e22;--c-fuses:#f1c40f;--c-primers:#3498db;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);background:var(--bg)}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-webkit-user-select:none;user-select:none}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 10%,rgba(212,168,67,0.04) 0%,transparent 55%),radial-gradient(ellipse at 80% 90%,rgba(52,152,219,0.03) 0%,transparent 50%);pointer-events:none;z-index:0}
+.wrap{max-width:640px;margin:0 auto;padding:0 0 110px;position:relative;z-index:1}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* HEADER */
+.header{text-align:center;padding:28px 20px 22px;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.header-badge{display:inline-block;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--bg);font-family:var(--font-h);font-weight:700;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:4px 14px;border-radius:2px;margin-bottom:12px}
+.header h1{font-family:var(--font-h);font-size:24px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px}
+.header h1 span{color:var(--gold)}
+.header-sub{font-size:12px;color:var(--text2)}
+/* INSTALL BANNER */
+.install-banner{margin:12px 14px 0;background:var(--gold-bg);border:1px solid var(--gold-bdr);border-radius:12px;padding:12px 14px;display:none;align-items:flex-start;gap:10px}
+.install-banner.show{display:flex}
+.install-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.install-text{font-size:12px;line-height:1.5;color:var(--text);flex:1}
+.install-text strong{color:var(--gold)}
+.install-close{background:none;border:none;color:var(--text3);font-size:18px;flex-shrink:0;padding:0;line-height:1}
+/* SECTIONS */
+.sections{padding:16px 14px 0;display:flex;flex-direction:column;gap:10px}
+/* SECTION CARD */
+.section-card{background:var(--bg-card);border-radius:14px;border:1px solid var(--border);overflow:hidden;transition:border-color 0.2s}
+.section-card.open{border-color:var(--border2)}
+.section-head{display:flex;align-items:center;padding:14px 16px;gap:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;touch-action:manipulation}
+.section-icon-wrap{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative}
+.section-icon-wrap::after{content:'';position:absolute;inset:0;border-radius:11px;border:1px solid rgba(255,255,255,0.09)}
+.section-info{flex:1;min-width:0}
+.section-title{font-family:var(--font-h);font-size:16px;font-weight:700;letter-spacing:0.2px;color:var(--text);margin-bottom:2px}
+.section-meta{font-size:11px;color:var(--text2)}
+.section-chevron{font-size:13px;color:var(--text3);transition:transform 0.25s;flex-shrink:0}
+.section-card.open .section-chevron{transform:rotate(90deg)}
+.section-body{display:none;border-top:1px solid var(--border);padding:8px 0 4px}
+.section-card.open .section-body{display:block}
+/* SUB ACCORDION */
+.sub-item{border-bottom:1px solid var(--border)}
+.sub-item:last-child{border-bottom:none}
+.sub-head{display:flex;align-items:center;padding:11px 16px;gap:10px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;transition:background 0.15s}
+.sub-head:active{background:rgba(255,255,255,0.03)}
+.sub-item.open .sub-head{background:rgba(255,255,255,0.02)}
+.sub-bar{width:3px;height:20px;border-radius:2px;background:var(--border2);flex-shrink:0;transition:background 0.2s}
+.sub-item.open .sub-bar{background:var(--section-color,var(--gold))}
+.sub-label{font-family:var(--font-h);font-size:14px;font-weight:600;color:var(--text);flex:1}
+.sub-item.open .sub-label{color:var(--section-color,var(--gold))}
+.sub-count{font-size:11px;font-family:var(--font-h);font-weight:600;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:2px 7px;color:var(--text2);min-width:20px;text-align:center;transition:background 0.2s,color 0.2s,border-color 0.2s}
+.sub-item.open .sub-count{background:var(--section-color,var(--gold));border-color:transparent;color:var(--bg)}
+.sub-chevron{font-size:11px;color:var(--text3);transition:transform 0.22s;flex-shrink:0}
+.sub-item.open .sub-chevron{transform:rotate(90deg)}
+.sub-body{display:none;padding:10px 16px 14px 32px;background:var(--bg-sub);border-top:1px solid var(--border)}
+.sub-item.open .sub-body{display:block;animation:subSlide 0.18s ease}
+@keyframes subSlide{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+/* BATCH FIELDS */
+.batches{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.batch-row{display:flex;align-items:flex-start;gap:8px;animation:rowIn 0.16s ease}
+@keyframes rowIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.batch-fields{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.batch-row-top{display:flex;align-items:center;gap:8px}
+.batch-label{font-size:10px;color:var(--text3);font-family:var(--font-h);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;width:54px;padding-top:11px}
+.batch-input{flex:1;background:var(--bg-input);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:var(--font);font-size:14px;padding:10px 12px;outline:none;-webkit-user-select:text;user-select:text;transition:border-color 0.15s;min-width:0}
+.batch-input:focus{border-color:var(--section-color,var(--gold))}
+.batch-input::placeholder{color:var(--text3)}
+.batch-qty-row{display:flex;align-items:center;gap:8px;padding-left:62px}
+.batch-qty-label{font-size:10px;color:var(--text3);font-family:var(--font-h);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;white-space:nowrap}
+.batch-qty-input{width:90px;background:var(--bg-input);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:var(--font-h);font-weight:600;font-size:14px;padding:7px 10px;outline:none;-webkit-user-select:text;user-select:text;transition:border-color 0.15s;text-align:right}
+.batch-qty-input:focus{border-color:var(--section-color,var(--gold))}
+.batch-qty-input::placeholder{color:var(--text3);font-weight:400}
+.batch-qty-unit{font-size:12px;color:var(--text2)}
+.batch-del{width:34px;height:34px;background:var(--red-bg);border:1px solid rgba(231,76,60,0.22);border-radius:10px;color:var(--red);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;transition:background 0.15s}
+.batch-del:active{background:rgba(231,76,60,0.24)}
+.add-batch-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:none;border:1px dashed var(--border2);border-radius:10px;color:var(--text2);font-size:12px;font-family:var(--font);transition:background 0.15s,border-color 0.15s,color 0.15s}
+.add-batch-btn:active{background:var(--gold-bg);border-color:var(--gold-bdr);color:var(--gold)}
+.empty-hint{text-align:center;padding:12px;color:var(--text3);font-size:12px}
+/* SECTION COLOR VARIANTS */
+.sec-shells{--section-color:var(--c-shells)}.sec-charges{--section-color:var(--c-charges)}.sec-fuses{--section-color:var(--c-fuses)}.sec-primers{--section-color:var(--c-primers)}
+.sec-shells .section-icon-wrap{background:rgba(231,76,60,0.15)}.sec-charges .section-icon-wrap{background:rgba(230,126,34,0.15)}.sec-fuses .section-icon-wrap{background:rgba(241,196,15,0.15)}.sec-primers .section-icon-wrap{background:rgba(52,152,219,0.15)}
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 60%,transparent);display:flex;gap:10px;z-index:100}
+.btn-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--bg);font-family:var(--font-h);font-weight:700;font-size:14px;letter-spacing:0.5px;border:none;border-radius:14px;box-shadow:0 4px 16px rgba(212,168,67,0.28);transition:opacity 0.15s,transform 0.1s}
+.btn-main:active{opacity:0.85;transform:scale(0.98)}
+.btn-secondary{width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border:1px solid var(--border2);border-radius:14px;font-size:20px;color:var(--text2);transition:background 0.15s}
+.btn-secondary:active{background:#2a3050}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.show{display:flex;animation:fadeIn 0.18s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{width:100%;max-width:640px;background:var(--bg-card);border-radius:20px 20px 0 0;border-top:1px solid var(--border2);padding:0 0 env(safe-area-inset-bottom);max-height:92svh;display:flex;flex-direction:column;animation:slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 0;flex-shrink:0}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px;flex-shrink:0;border-bottom:1px solid var(--border)}
+.modal-title{font-family:var(--font-h);font-size:16px;font-weight:700}
+.modal-close{width:30px;height:30px;background:rgba(255,255,255,0.07);border:none;border-radius:50%;color:var(--text2);font-size:16px;display:flex;align-items:center;justify-content:center}
+.modal-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 18px}
+.report-text{background:var(--bg);border:1px solid var(--border2);border-radius:12px;padding:14px;font-family:'SF Mono','Menlo','Courier New',monospace;font-size:12px;line-height:1.75;color:var(--text);white-space:pre-wrap;word-break:break-word;-webkit-user-select:text;user-select:text;margin-bottom:14px}
+.modal-actions{display:flex;flex-direction:column;gap:8px;padding:10px 18px 14px;flex-shrink:0;border-top:1px solid var(--border)}
+.modal-btn{width:100%;padding:15px;border-radius:14px;border:none;font-family:var(--font-h);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.15s,transform 0.1s}
+.modal-btn:active{opacity:0.85;transform:scale(0.98)}
+.modal-btn-signal{background:linear-gradient(135deg,#1a6fa8,#2980b9);color:#fff;box-shadow:0 4px 14px rgba(52,152,219,0.28)}
+.modal-btn-copy{background:var(--bg);border:1px solid var(--border2);color:var(--text)}
+.modal-btn-clear{background:var(--red-bg);border:1px solid rgba(231,76,60,0.22);color:var(--red)}
+.modal-btn-share{background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.25);color:var(--green)}
+.modal-btn-import{background:rgba(52,152,219,0.12);border:1px solid rgba(52,152,219,0.25);color:var(--blue)}
+/* QR MODAL */
+.qr-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;padding:20px}
+.qr-modal-overlay.show{display:flex;animation:fadeIn 0.18s ease}
+.qr-modal{background:var(--bg-card);border-radius:20px;border:1px solid var(--border2);padding:24px 20px 20px;width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.qr-title{font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--text);text-align:center}
+.qr-sub{font-size:11px;color:var(--text2);text-align:center;line-height:1.5}
+#qrCanvas{border-radius:12px;background:#fff;padding:12px}
+.qr-code-box{width:100%;background:var(--bg-input);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-family:'SF Mono','Menlo',monospace;font-size:11px;color:var(--gold);word-break:break-all;line-height:1.5;-webkit-user-select:text;user-select:text;text-align:center;cursor:text;max-height:80px;overflow-y:auto}
+.qr-divider{width:100%;display:flex;align-items:center;gap:10px;color:var(--text3);font-size:11px}
+.qr-divider::before,.qr-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+/* IMPORT MODAL */
+.import-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:300;align-items:flex-end;justify-content:center}
+.import-modal-overlay.show{display:flex;animation:fadeIn 0.18s ease}
+.import-modal{width:100%;max-width:640px;background:var(--bg-card);border-radius:20px 20px 0 0;border-top:1px solid var(--border2);padding:0 0 env(safe-area-inset-bottom);display:flex;flex-direction:column;animation:slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1)}
+.import-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:12px}
+.import-label{font-size:12px;color:var(--text2);line-height:1.5}
+.import-input{width:100%;background:var(--bg-input);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'SF Mono','Menlo',monospace;font-size:13px;padding:12px;outline:none;-webkit-user-select:text;user-select:text;min-height:80px;resize:none;transition:border-color 0.15s}
+.import-input:focus{border-color:var(--blue)}
+/* TOAST */
+.toast{position:fixed;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translateX(-50%) translateY(-70px);background:var(--bg-card);border:1px solid var(--border2);border-radius:22px;padding:10px 18px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:7px;z-index:999;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="header-badge">Облік боєприпасів</div>
+    <h1>БК <span>Звіт</span></h1>
+    <div class="header-sub" id="headerDate">—</div>
+  </div>
+  <div class="install-banner" id="installBanner">
+    <div class="install-icon">📲</div>
+    <div class="install-text"><strong>Додати на екран «Додому»</strong><br>Safari → «Поділитися» → «На екран "Додому"»</div>
+    <button class="install-close" id="installClose">✕</button>
+  </div>
+  <div class="sections" id="sectionsRoot"></div>
+</div>
+
+<div class="bottom-bar">
+  <button class="btn-main" id="reportBtn">📋 Сформувати звіт</button>
+  <button class="btn-secondary" id="clearBtn">🗑</button>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title">📋 Звіт БК</div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body"><div class="report-text" id="reportText"></div></div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-signal" id="sendSignalBtn">📤 Відправити в Signal</button>
+      <button class="modal-btn modal-btn-copy"   id="copyBtn">📋 Скопіювати звіт</button>
+      <button class="modal-btn modal-btn-share"  id="shareDataBtn">🔗 Поділитись даними (QR / Код)</button>
+      <button class="modal-btn modal-btn-import" id="importBtn">📥 Імпортувати дані</button>
+      <button class="modal-btn modal-btn-clear"  id="clearDataBtn">🗑 Очистити всі дані</button>
+    </div>
+  </div>
+</div>
+
+<!-- QR / SHARE MODAL -->
+<div class="qr-modal-overlay" id="qrModal">
+  <div class="qr-modal">
+    <div class="qr-title">📤 Поділитися даними</div>
+    <div class="qr-sub">Відскануй QR-код або передай текстовий код</div>
+    <canvas id="qrCanvas" width="220" height="220"></canvas>
+    <div class="qr-divider">або текстовий код</div>
+    <div class="qr-code-box" id="shareCodeBox"></div>
+    <button class="modal-btn modal-btn-copy" id="copyCodeBtn" style="width:100%;padding:12px;font-size:13px">📋 Скопіювати код</button>
+    <button class="modal-btn modal-btn-clear" id="qrClose" style="width:100%;padding:12px;font-size:13px;margin-top:0">✕ Закрити</button>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="import-modal-overlay" id="importModal">
+  <div class="import-modal">
+    <div class="modal-handle" style="margin-bottom:4px"></div>
+    <div class="import-body">
+      <div class="modal-title" style="font-family:var(--font-h);font-size:16px;font-weight:700">📥 Імпорт даних</div>
+      <div class="import-label">Вставте текстовий код який отримали від іншого користувача. Поточні дані будуть замінені.</div>
+      <textarea class="import-input" id="importInput" placeholder="Вставте код тут..."></textarea>
+      <button class="modal-btn modal-btn-signal" id="importConfirmBtn" style="padding:13px;font-size:14px">✅ Імпортувати</button>
+      <button class="modal-btn modal-btn-copy" id="importCancelBtn" style="padding:13px;font-size:14px">Скасувати</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+//  SECTIONS CONFIG
+// ══════════════════════════════════════════
+var SECTIONS = [
+  { id:'shells',  cls:'sec-shells',  icon:'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 C10 2 9 3.5 9 5 L9 16 L12 20 L15 16 L15 5 C15 3.5 14 2 12 2Z" fill="#e74c3c"/><path d="M9 14 L15 14 L15 16 L9 16Z" fill="#c0392b"/><path d="M10 5 C10 4 11 3.5 12 3.5 C13 3.5 14 4 14 5" stroke="#ff6b6b" stroke-width="0.8" fill="none"/><rect x="9" y="16" width="6" height="3" rx="0.5" fill="#95a5a6"/><rect x="9.5" y="19" width="5" height="2" rx="0.5" fill="#7f8c8d"/></svg>',  ricon:'🔴', title:'Снаряди',
+    subs:[{id:'s107',label:'107'},{id:'s795',label:'795'},{id:'sherfb',label:'HE ERFB BB'},{id:'s864',label:'864'},{id:'s483',label:'483'}] },
+  { id:'charges', cls:'sec-charges', icon:'💥', ricon:'💥', title:'Заряди',
+    subs:[{id:'cm4a2',label:'M4A2'},{id:'cc8',label:'Charge8'},{id:'cm119',label:'M119A2'},{id:'cm232',label:'M232A1'},{id:'cm92',label:'M92 5H'}] },
+  { id:'fuses',   cls:'sec-fuses',   icon:'⚡', ricon:'⚡', title:'Підривники',
+    subs:[{id:'fp72',label:'PDM72B1A'},{id:'fp557',label:'PDM557'},{id:'fp739',label:'PDM739'}] },
+  { id:'primers', cls:'sec-primers', icon:'🔩', ricon:'🔩', title:'Праймера',
+    subs:[{id:'pm82',label:'M82'},{id:'pm191',label:'M191'}] }
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+var STORAGE_KEY = 'ammo_data_v4';
+function loadState(){try{var r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):{}}catch(e){return{}}}
+function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(STATE))}catch(e){}}
+var STATE = loadState();
+SECTIONS.forEach(function(sec){
+  if(!STATE[sec.id])STATE[sec.id]={};
+  sec.subs.forEach(function(sub){
+    if(!STATE[sec.id][sub.id])STATE[sec.id][sub.id]=[{b:'',q:''}];
+    STATE[sec.id][sub.id]=STATE[sec.id][sub.id].map(function(v){return(typeof v==='string')?{b:v,q:''}:v});
+  });
+});
+saveState();
+
+var openSections={},openSubs={};
+
+// ══════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════
+function addTap(el,fn){
+  if(!el)return;
+  var moved=false;
+  el.addEventListener('touchstart',function(){moved=false},{passive:true});
+  el.addEventListener('touchmove',function(){moved=true},{passive:true});
+  el.addEventListener('touchend',function(e){if(!moved){e.preventDefault();fn(e)}});
+  el.addEventListener('click',fn);
+}
+function showToast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},2400);
+}
+function countSection(secId){
+  var total=0,filled=0;
+  Object.values(STATE[secId]||{}).forEach(function(arr){arr.forEach(function(v){total++;if(v&&v.b&&v.b.trim())filled++})});
+  return{total:total,filled:filled};
+}
+function countSub(secId,subId){
+  return((STATE[secId]&&STATE[secId][subId])||[]).filter(function(v){return v&&v.b&&v.b.trim()}).length;
+}
+
+// ══════════════════════════════════════════
+//  RENDER BATCHES
+// ══════════════════════════════════════════
+function renderBatches(sec,sub,container){
+  container.innerHTML='';
+  var batches=STATE[sec.id][sub.id]||[{b:'',q:''}];
+  var wrap=document.createElement('div');wrap.className='batches';
+  if(!batches.length)wrap.innerHTML='<div class="empty-hint">Натисніть «＋» щоб додати партію</div>';
+
+  function refreshCounters(){
+    var sc=document.getElementById('subcount-'+sec.id+'_'+sub.id);
+    if(sc)sc.textContent=countSub(sec.id,sub.id);
+    var sm=document.getElementById('secmeta-'+sec.id);
+    if(sm){var c=countSection(sec.id);sm.textContent=c.filled+' з '+c.total+' заповнено'}
+  }
+
+  batches.forEach(function(val,idx){
+    var row=document.createElement('div');row.className='batch-row';
+    var fields=document.createElement('div');fields.className='batch-fields';
+    var topRow=document.createElement('div');topRow.className='batch-row-top';
+    var lbl=document.createElement('div');lbl.className='batch-label';lbl.textContent='Партія '+(idx+1);
+    var inp=document.createElement('input');inp.type='text';inp.className='batch-input';
+    inp.placeholder='Номер партії...';inp.value=(val&&val.b)||'';
+    inp.setAttribute('autocomplete','off');inp.setAttribute('autocorrect','off');inp.setAttribute('spellcheck','false');
+    inp.addEventListener('touchstart',function(e){e.stopPropagation()},{passive:true});
+    inp.addEventListener('click',function(e){e.stopPropagation()});
+    inp.addEventListener('input',function(){STATE[sec.id][sub.id][idx].b=inp.value;saveState();refreshCounters()});
+    topRow.appendChild(lbl);topRow.appendChild(inp);fields.appendChild(topRow);
+
+    var qtyRow=document.createElement('div');qtyRow.className='batch-qty-row';
+    var qtyLbl=document.createElement('div');qtyLbl.className='batch-qty-label';qtyLbl.textContent='Кількість';
+    var qtyInp=document.createElement('input');qtyInp.type='number';qtyInp.className='batch-qty-input';
+    qtyInp.placeholder='0';qtyInp.min='0';qtyInp.value=(val&&val.q)||'';
+    qtyInp.setAttribute('inputmode','numeric');
+    qtyInp.addEventListener('touchstart',function(e){e.stopPropagation()},{passive:true});
+    qtyInp.addEventListener('click',function(e){e.stopPropagation()});
+    qtyInp.addEventListener('input',function(){STATE[sec.id][sub.id][idx].q=qtyInp.value;saveState()});
+    var qtyUnit=document.createElement('div');qtyUnit.className='batch-qty-unit';qtyUnit.textContent='шт.';
+    qtyRow.appendChild(qtyLbl);qtyRow.appendChild(qtyInp);qtyRow.appendChild(qtyUnit);
+    fields.appendChild(qtyRow);
+
+    var del=document.createElement('button');del.className='batch-del';del.innerHTML='−';del.type='button';
+    addTap(del,(function(i){return function(){
+      STATE[sec.id][sub.id].splice(i,1);
+      if(!STATE[sec.id][sub.id].length)STATE[sec.id][sub.id]=[];
+      saveState();renderBatches(sec,sub,container);refreshCounters();
+    }})(idx));
+    row.appendChild(fields);row.appendChild(del);wrap.appendChild(row);
+  });
+  container.appendChild(wrap);
+
+  var addBtn=document.createElement('button');addBtn.className='add-batch-btn';addBtn.type='button';
+  addBtn.innerHTML='＋ &nbsp;Додати партію';
+  addTap(addBtn,function(){
+    STATE[sec.id][sub.id].push({b:'',q:''});saveState();
+    renderBatches(sec,sub,container);
+    var sc=document.getElementById('subcount-'+sec.id+'_'+sub.id);
+    if(sc)sc.textContent=countSub(sec.id,sub.id);
+    setTimeout(function(){var ins=container.querySelectorAll('.batch-input');if(ins.length)ins[ins.length-1].focus()},80);
+  });
+  container.appendChild(addBtn);
+}
+
+// ══════════════════════════════════════════
+//  RENDER SECTIONS
+// ══════════════════════════════════════════
+function render(){
+  var root=document.getElementById('sectionsRoot');root.innerHTML='';
+  SECTIONS.forEach(function(sec){
+    var isOpen=!!openSections[sec.id];
+    var c=countSection(sec.id);
+    var card=document.createElement('div');
+    card.className='section-card '+sec.cls+(isOpen?' open':'');
+    var head=document.createElement('div');head.className='section-head';
+    head.innerHTML='<div class="section-icon-wrap">'+sec.icon+'</div>'+
+      '<div class="section-info">'+
+        '<div class="section-title">'+sec.title+'</div>'+
+        '<div class="section-meta" id="secmeta-'+sec.id+'">'+c.filled+' з '+c.total+' заповнено</div>'+
+      '</div><div class="section-chevron">›</div>';
+    addTap(head,(function(sid,scard){return function(){
+      openSections[sid]=!openSections[sid];
+      scard.classList.toggle('open',openSections[sid]);
+      var b=scard.querySelector('.section-body');
+      if(b)b.style.display=openSections[sid]?'block':'none';
+      if(openSections[sid])setTimeout(function(){scard.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+    }})(sec.id,card));
+    card.appendChild(head);
+    var body=document.createElement('div');body.className='section-body';
+    body.style.display=isOpen?'block':'none';
+    sec.subs.forEach(function(sub){
+      var subKey=sec.id+'_'+sub.id;
+      var isSubOpen=!!openSubs[subKey];
+      var sf=countSub(sec.id,sub.id);
+      var subItem=document.createElement('div');
+      subItem.className='sub-item'+(isSubOpen?' open':'');
+      var subHead=document.createElement('div');subHead.className='sub-head';
+      subHead.innerHTML='<div class="sub-bar"></div><div class="sub-label">'+sub.label+'</div>'+
+        '<span class="sub-count" id="subcount-'+subKey+'">'+sf+'</span><div class="sub-chevron">›</div>';
+      var subBody=document.createElement('div');subBody.className='sub-body';
+      if(isSubOpen)renderBatches(sec,sub,subBody);
+      addTap(subHead,(function(sk,si,sb,s,su){return function(){
+        openSubs[sk]=!openSubs[sk];
+        si.classList.toggle('open',openSubs[sk]);
+        if(openSubs[sk]){renderBatches(s,su,sb);sb.style.display='block';setTimeout(function(){si.scrollIntoView({behavior:'smooth',block:'nearest'})},60)}
+        else{sb.style.display='none'}
+      }})(subKey,subItem,subBody,sec,sub));
+      subItem.appendChild(subHead);subItem.appendChild(subBody);body.appendChild(subItem);
+    });
+    card.appendChild(body);root.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════
+//  REPORT GENERATION
+// ══════════════════════════════════════════
+function generateReport(){
+  var now=new Date();
+  var date=now.toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit',year:'numeric'});
+  var time=now.toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'});
+  var lines=['━━━━━━━━━━━━━━━━━━━━','📦 ЗАЛИШОК БК','━━━━━━━━━━━━━━━━━━━━','📅 '+date+'  '+time,''];
+  var hasAny=false;
+  SECTIONS.forEach(function(sec){
+    var secLines=[];
+    sec.subs.forEach(function(sub){
+      var batches=(STATE[sec.id]&&STATE[sec.id][sub.id])||[];
+      var filled=batches.filter(function(v){return v&&v.b&&v.b.trim()});
+      if(filled.length){
+        secLines.push('  '+sub.label+':');
+        filled.forEach(function(v){
+          var line='    — '+v.b.trim();
+          if(v.q&&v.q.toString().trim())line+='  ('+v.q+' шт.)';
+          secLines.push(line);
+        });
+      }
+    });
+    if(secLines.length){hasAny=true;lines.push((sec.ricon||sec.icon)+' '+sec.title.toUpperCase()+':');secLines.forEach(function(l){lines.push(l)});lines.push('')}
+  });
+  if(!hasAny){lines.push('⚠️ Дані не введено');lines.push('')}
+  lines.push('━━━━━━━━━━━━━━━━━━━━');
+  return lines.join('\n');
+}
+
+// ══════════════════════════════════════════
+//  SHARE / IMPORT — DATA ENCODING
+//  Compact Base64 code of full STATE
+// ══════════════════════════════════════════
+function encodeShareCode(){
+  // Compact: store only non-empty entries as [secIdx,subIdx,batch,qty]
+  var rows=[];
+  SECTIONS.forEach(function(sec,si){
+    sec.subs.forEach(function(sub,subi){
+      var arr=(STATE[sec.id]&&STATE[sec.id][sub.id])||[];
+      arr.forEach(function(v){
+        var b=(v&&v.b)?v.b.trim():'';
+        var q=(v&&v.q)?v.q.toString().trim():'';
+        if(b||q)rows.push([si,subi,b,q]);
+      });
+    });
+  });
+  if(!rows.length)return null;
+  try{
+    var json=JSON.stringify(rows);
+    var b64=btoa(unescape(encodeURIComponent(json)));
+    return 'BK2:'+b64;
+  }catch(e){return null}
+}
+
+function decodeShareCode(code){
+  try{
+    code=code.trim();
+    if(code.indexOf('BK2:')===0){
+      var json=decodeURIComponent(escape(atob(code.slice(4))));
+      var rows=JSON.parse(json);
+      var payload={};
+      rows.forEach(function(row){
+        var si=row[0],subi=row[1],b=row[2]||'',q=row[3]||'';
+        if(!SECTIONS[si]||!SECTIONS[si].subs[subi])return;
+        var secId=SECTIONS[si].id,subId=SECTIONS[si].subs[subi].id;
+        if(!payload[secId])payload[secId]={};
+        if(!payload[secId][subId])payload[secId][subId]=[];
+        payload[secId][subId].push({b:b,q:q});
+      });
+      return payload;
+    }
+    if(code.indexOf('BK1:')===0){
+      var json=decodeURIComponent(escape(atob(code.slice(4))));
+      return JSON.parse(json);
+    }
+    var json=decodeURIComponent(escape(atob(code)));
+    return JSON.parse(json);
+  }catch(e){return null}
+}
+
+function applyImport(payload){
+  SECTIONS.forEach(function(sec){
+    if(!STATE[sec.id])STATE[sec.id]={};
+    if(payload[sec.id]){
+      sec.subs.forEach(function(sub){
+        if(payload[sec.id][sub.id]){
+          STATE[sec.id][sub.id]=payload[sec.id][sub.id].map(function(v){
+            return(typeof v==='string')?{b:v,q:''}:v;
+          });
+        }
+      });
+    }
+  });
+  saveState();
+  render();
+}
+
+// ══════════════════════════════════════════
+//  MINIMAL QR CODE (pure JS, no library)
+//  Uses qrcode-generator approach via canvas
+// ══════════════════════════════════════════
+// We use a tiny self-contained QR encoder
+// For reliability we embed a minimal QR lib inline
+
+// ---- tiny QR generator (MIT, based on qrcodejs) ----
+var QRCodeMin=(function(){
+"use strict";
+var QRMode={MODE_NUMBER:1,MODE_ALPHA_NUM:2,MODE_8BIT_BYTE:4,MODE_KANJI:8};
+var QRErrorCorrectLevel={L:1,M:0,Q:3,H:2};
+var QRMaskPattern={PATTERN000:0,PATTERN001:1,PATTERN010:2,PATTERN011:3,PATTERN100:4,PATTERN101:5,PATTERN110:6,PATTERN111:7};
+var QRUtil={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],G15:(1<<10)|(1<<8)|(1<<5)|(1<<4)|(1<<2)|(1<<1)|(1<<0),G18:(1<<12)|(1<<11)|(1<<10)|(1<<9)|(1<<8)|(1<<5)|(1<<2)|(1<<0),G15_MASK:(1<<14)|(1<<12)|(1<<10)|(1<<4)|(1<<1),getBCHTypeInfo:function(d){var r=d<<10;while(QRUtil.getBCHDigit(r)-QRUtil.getBCHDigit(QRUtil.G15)>=0){r^=(QRUtil.G15<<(QRUtil.getBCHDigit(r)-QRUtil.getBCHDigit(QRUtil.G15)))}return((d<<10)|r)^QRUtil.G15_MASK},getBCHTypeNumber:function(d){var r=d<<12;while(QRUtil.getBCHDigit(r)-QRUtil.getBCHDigit(QRUtil.G18)>=0){r^=(QRUtil.G18<<(QRUtil.getBCHDigit(r)-QRUtil.getBCHDigit(QRUtil.G18)))}return(d<<12)|r},getBCHDigit:function(d){var r=0;while(d!==0){r++;d>>>=1}return r},getPatternPosition:function(t){return QRUtil.PATTERN_POSITION_TABLE[t-1]},getMask:function(mp,r,c){switch(mp){case 0:return(r+c)%2===0;case 1:return r%2===0;case 2:return c%3===0;case 3:return(r+c)%3===0;case 4:return(Math.floor(r/2)+Math.floor(c/3))%2===0;case 5:return(r*c)%2+(r*c)%3===0;case 6:return((r*c)%2+(r*c)%3)%2===0;case 7:return((r+c)%2+(r*c)%3)%2===0}throw new Error("bad mask:"+mp)},getErrorCorrectPolynomial:function(e){var a=new QRPolynomial([1],0);for(var i=0;i<e;i++)a=a.multiply(new QRPolynomial([1,QRMath.gexp(i)],0));return a},getLengthInBits:function(m,t){if(1<=t&&t<10){switch(m){case QRMode.MODE_NUMBER:return 10;case QRMode.MODE_ALPHA_NUM:return 9;case QRMode.MODE_8BIT_BYTE:return 8;case QRMode.MODE_KANJI:return 8}}else if(t<27){switch(m){case QRMode.MODE_NUMBER:return 12;case QRMode.MODE_ALPHA_NUM:return 11;case QRMode.MODE_8BIT_BYTE:return 16;case QRMode.MODE_KANJI:return 10}}else{switch(m){case QRMode.MODE_NUMBER:return 14;case QRMode.MODE_ALPHA_NUM:return 13;case QRMode.MODE_8BIT_BYTE:return 16;case QRMode.MODE_KANJI:return 12}}throw new Error("mode:"+m+"/type:"+t)},getLostPoint:function(qr){var ms=qr.getModuleCount(),lp=0,r,c;for(r=0;r<ms;r++)for(c=0;c<ms;c++){var sc=0,d=qr.isDark(r,c);for(var rr=-1;rr<=1;rr++)if(r+rr>=0&&r+rr<ms)for(var cc=-1;cc<=1;cc++)if(c+cc>=0&&c+cc<ms&&!(rr===0&&cc===0)&&d===qr.isDark(r+rr,c+cc))sc++;if(sc>5)lp+=(3+sc-5)}for(r=0;r<ms-1;r++)for(c=0;c<ms-1;c++){var cnt=0;if(qr.isDark(r,c))cnt++;if(qr.isDark(r+1,c))cnt++;if(qr.isDark(r,c+1))cnt++;if(qr.isDark(r+1,c+1))cnt++;if(cnt===0||cnt===4)lp+=3}for(r=0;r<ms;r++)for(c=0;c<ms-6;c++){if(qr.isDark(r,c)&&!qr.isDark(r,c+1)&&qr.isDark(r,c+2)&&qr.isDark(r,c+3)&&qr.isDark(r,c+4)&&!qr.isDark(r,c+5)&&qr.isDark(r,c+6))lp+=40}for(c=0;c<ms;c++)for(r=0;r<ms-6;r++){if(qr.isDark(r,c)&&!qr.isDark(r+1,c)&&qr.isDark(r+2,c)&&qr.isDark(r+3,c)&&qr.isDark(r+4,c)&&!qr.isDark(r+5,c)&&qr.isDark(r+6,c))lp+=40}var dc=0,tc=ms*ms;for(r=0;r<ms;r++)for(c=0;c<ms;c++)if(qr.isDark(r,c))dc++;var rat=Math.abs(100*dc/tc-50)/5;lp+=rat*10;return lp}};
+var QRMath={glog:function(n){if(n<1)throw new Error("log("+n+")");return QRMath.LOG_TABLE[n]},gexp:function(n){while(n<0)n+=255;while(n>=256)n-=255;return QRMath.EXP_TABLE[n]},EXP_TABLE:new Array(256),LOG_TABLE:new Array(256)};
+for(var i=0;i<8;i++)QRMath.EXP_TABLE[i]=1<<i;
+for(var i=8;i<256;i++)QRMath.EXP_TABLE[i]=QRMath.EXP_TABLE[i-4]^QRMath.EXP_TABLE[i-5]^QRMath.EXP_TABLE[i-6]^QRMath.EXP_TABLE[i-8];
+for(var i=0;i<255;i++)QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]]=i;
+function QRPolynomial(n,s){if(n.length===undefined)throw new Error(n.length+"/"+s);var o=0;while(o<n.length&&n[o]===0)o++;this.num=new Array(n.length-o+s);for(var i=0;i<n.length-o;i++)this.num[i]=n[i+o]}
+QRPolynomial.prototype={get:function(i){return this.num[i]},getLength:function(){return this.num.length},multiply:function(e){var n=new Array(this.getLength()+e.getLength()-1);for(var i=0;i<this.getLength();i++)for(var j=0;j<e.getLength();j++)n[i+j]^=QRMath.gexp(QRMath.glog(this.get(i))+QRMath.glog(e.get(j)));return new QRPolynomial(n,0)},mod:function(e){if(this.getLength()-e.getLength()<0)return this;var r=QRMath.glog(this.get(0))-QRMath.glog(e.get(0));var n=new Array(this.getLength());for(var i=0;i<this.getLength();i++)n[i]=this.get(i);for(var i=0;i<e.getLength();i++)n[i]^=QRMath.gexp(QRMath.glog(e.get(i))+r);return new QRPolynomial(n,0).mod(e)}};
+function QRRSBlock(tc,dc){this.totalCount=tc;this.dataCount=dc}
+QRRSBlock.RS_BLOCK_TABLE=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]];
+QRRSBlock.getRSBlocks=function(tv,ecl){var t=QRRSBlock.getRsBlockTable(tv,ecl);if(t===undefined)throw new Error("bad rs block @ typeNumber:"+tv+"/errorCorrectLevel:"+ecl);var bl=t.length/3,bl2=[];for(var i=0;i<bl;i++){var c=t[i*3],tc=t[i*3+1],dc=t[i*3+2];for(var j=0;j<c;j++)bl2.push(new QRRSBlock(tc,dc))}return bl2};
+QRRSBlock.getRsBlockTable=function(tv,ecl){switch(ecl){case QRErrorCorrectLevel.L:return QRRSBlock.RS_BLOCK_TABLE[(tv-1)*4+0];case QRErrorCorrectLevel.M:return QRRSBlock.RS_BLOCK_TABLE[(tv-1)*4+1];case QRErrorCorrectLevel.Q:return QRRSBlock.RS_BLOCK_TABLE[(tv-1)*4+2];case QRErrorCorrectLevel.H:return QRRSBlock.RS_BLOCK_TABLE[(tv-1)*4+3]}};
+function QRBitBuffer(){this.buffer=[];this.length=0}
+QRBitBuffer.prototype={get:function(i){var bi=Math.floor(i/8);return((this.buffer[bi]>>>(7-i%8))&1)===1},put:function(d,l){for(var i=0;i<l;i++)this.putBit(((d>>>(l-i-1))&1)===1)},getLengthInBits:function(){return this.length},putBit:function(b){var bi=Math.floor(this.length/8);if(this.buffer.length<=bi)this.buffer.push(0);if(b)this.buffer[bi]|=(0x80>>>(this.length%8));this.length++}};
+function QR8bitByte(d){this.mode=QRMode.MODE_8BIT_BYTE;this.data=d}
+QR8bitByte.prototype={getLength:function(){return this.data.length},write:function(buf){for(var i=0;i<this.data.length;i++)buf.put(this.data.charCodeAt(i),8)}};
+function QRCode(tv,ecl){this.typeNumber=tv;this.errorCorrectLevel=ecl;this.modules=null;this.moduleCount=0;this.dataCache=null;this.dataList=[]}
+QRCode.prototype={addData:function(d){this.dataList.push(new QR8bitByte(d));this.dataCache=null},isDark:function(r,c){if(r<0||this.moduleCount<=r||c<0||this.moduleCount<=c)throw new Error(r+","+c);return this.modules[r][c]},getModuleCount:function(){return this.moduleCount},make:function(){if(this.typeNumber<1){var ll=0;for(var i=0;i<this.dataList.length;i++){var d=this.dataList[i];ll+=4+QRUtil.getLengthInBits(d.mode,1)+d.getLength()*8}for(var tv=1;tv<40;tv++){var ec=QRUtil.getErrorCorrectPolynomial(QRRSBlock.getRSBlocks(tv,this.errorCorrectLevel).reduce(function(s,b){return s+(b.totalCount-b.dataCount)},0));var totaldc=QRRSBlock.getRSBlocks(tv,this.errorCorrectLevel).reduce(function(s,b){return s+b.dataCount},0);if(totaldc*8>=ll){this.typeNumber=tv;break}}}this.makeImpl(false,this.getBestMaskPattern())},makeImpl:function(t,mp){this.moduleCount=this.typeNumber*4+17;this.modules=new Array(this.moduleCount);for(var r=0;r<this.moduleCount;r++){this.modules[r]=new Array(this.moduleCount);for(var c=0;c<this.moduleCount;c++)this.modules[r][c]=null}this.setupPositionProbePattern(0,0);this.setupPositionProbePattern(this.moduleCount-7,0);this.setupPositionProbePattern(0,this.moduleCount-7);this.setupPositionAdjustPattern();this.setupTimingPattern();this.setupTypeInfo(t,mp);if(this.typeNumber>=7)this.setupTypeNumber(t);if(this.dataCache===null)this.dataCache=QRCode.createData(this.typeNumber,this.errorCorrectLevel,this.dataList);this.mapData(this.dataCache,mp)},setupPositionProbePattern:function(r,c){for(var rr=-1;rr<=7;rr++){if(r+rr<=-1||this.moduleCount<=r+rr)continue;for(var cc=-1;cc<=7;cc++){if(c+cc<=-1||this.moduleCount<=c+cc)continue;if((0<=rr&&rr<=6&&(cc===0||cc===6))||(0<=cc&&cc<=6&&(rr===0||rr===6))||(2<=rr&&rr<=4&&2<=cc&&cc<=4))this.modules[r+rr][c+cc]=true;else this.modules[r+rr][c+cc]=false}}},getBestMaskPattern:function(){var mp=0,mn=0;for(var i=0;i<8;i++){this.makeImpl(true,i);var l=QRUtil.getLostPoint(this);if(i===0||mn>l){mn=l;mp=i}}return mp},setupTimingPattern:function(){for(var r=8;r<this.moduleCount-8;r++)if(this.modules[r][6]===null)this.modules[r][6]=(r%2===0);for(var c=8;c<this.moduleCount-8;c++)if(this.modules[6][c]===null)this.modules[6][c]=(c%2===0)},setupPositionAdjustPattern:function(){var p=QRUtil.getPatternPosition(this.typeNumber);for(var i=0;i<p.length;i++)for(var j=0;j<p.length;j++){var r=p[i],c=p[j];if(this.modules[r][c]!==null)continue;for(var rr=-2;rr<=2;rr++)for(var cc=-2;cc<=2;cc++){if(rr===-2||rr===2||cc===-2||cc===2||rr===0&&cc===0)this.modules[r+rr][c+cc]=true;else this.modules[r+rr][c+cc]=false}}},setupTypeNumber:function(t){var b=QRUtil.getBCHTypeNumber(this.typeNumber);for(var i=0;i<18;i++){var m=(!t&&((b>>i)&1)===1);this.modules[Math.floor(i/3)][i%3+this.moduleCount-8-3]=m}for(var i=0;i<18;i++){var m=(!t&&((b>>i)&1)===1);this.modules[i%3+this.moduleCount-8-3][Math.floor(i/3)]=m}},setupTypeInfo:function(t,mp){var d=(this.errorCorrectLevel<<3)|mp,b=QRUtil.getBCHTypeInfo(d);for(var i=0;i<15;i++){var m=(!t&&((b>>i)&1)===1);if(i<6)this.modules[i][8]=m;else if(i<8)this.modules[i+1][8]=m;else this.modules[this.moduleCount-15+i][8]=m}for(var i=0;i<15;i++){var m=(!t&&((b>>i)&1)===1);if(i<8)this.modules[8][this.moduleCount-i-1]=m;else if(i<9)this.modules[8][15-i-1+1]=m;else this.modules[8][15-i-1]=m}this.modules[this.moduleCount-8][8]=(!t)},mapData:function(d,mp){var inc=-1,r=this.moduleCount-1,bitIdx=7,byteIdx=0;for(var c=this.moduleCount-1;c>0;c-=2){if(c===6)c--;while(true){for(var i=0;i<2;i++){if(this.modules[r][c-i]===null){var dk=false;if(byteIdx<d.length)dk=((d[byteIdx]>>bitIdx)&1)===1;if(QRUtil.getMask(mp,r,c-i))dk=!dk;this.modules[r][c-i]=dk;bitIdx--;if(bitIdx===-1){byteIdx++;bitIdx=7}}}r+=inc;if(r<0||this.moduleCount<=r){r-=inc;inc=-inc;break}}}}};
+QRCode.PAD0=0xEC;QRCode.PAD1=0x11;
+QRCode.createData=function(tv,ecl,dl){var blocks=QRRSBlock.getRSBlocks(tv,ecl),buf=new QRBitBuffer();for(var i=0;i<dl.length;i++){var d=dl[i];buf.put(d.mode,4);buf.put(d.getLength(),QRUtil.getLengthInBits(d.mode,tv));d.write(buf)}var totaldc=0;for(var i=0;i<blocks.length;i++)totaldc+=blocks[i].dataCount;if(buf.getLengthInBits()>totaldc*8)throw new Error("code length overflow");if(buf.getLengthInBits()+4<=totaldc*8)buf.put(0,4);while(buf.getLengthInBits()%8!==0)buf.putBit(false);while(true){if(buf.getLengthInBits()>=totaldc*8)break;buf.put(QRCode.PAD0,8);if(buf.getLengthInBits()>=totaldc*8)break;buf.put(QRCode.PAD1,8)}return QRCode.createBytes(buf,blocks)};
+QRCode.createBytes=function(buf,blocks){var oi=0,maxDcCount=0,maxEcCount=0,dcdata=new Array(blocks.length),ecdata=new Array(blocks.length);for(var r=0;r<blocks.length;r++){var dcCount=blocks[r].dataCount,ecCount=blocks[r].totalCount-dcCount;maxDcCount=Math.max(maxDcCount,dcCount);maxEcCount=Math.max(maxEcCount,ecCount);dcdata[r]=new Array(dcCount);for(var i=0;i<dcdata[r].length;i++)dcdata[r][i]=0xff&buf.buffer[oi++];var rsPoly=QRUtil.getErrorCorrectPolynomial(ecCount),rawPoly=new QRPolynomial(dcdata[r],rsPoly.getLength()-1),modPoly=rawPoly.mod(rsPoly);ecdata[r]=new Array(rsPoly.getLength()-1);for(var i=0;i<ecdata[r].length;i++){var modIdx=i+modPoly.getLength()-ecdata[r].length;ecdata[r][i]=(modIdx>=0)?modPoly.get(modIdx):0}}var totalCodeCount=0;for(var i=0;i<blocks.length;i++)totalCodeCount+=blocks[i].totalCount;var data=new Array(totalCodeCount),idx=0;for(var i=0;i<maxDcCount;i++)for(var r=0;r<blocks.length;r++)if(i<dcdata[r].length)data[idx++]=dcdata[r][i];for(var i=0;i<maxEcCount;i++)for(var r=0;r<blocks.length;r++)if(i<ecdata[r].length)data[idx++]=ecdata[r][i];return data};
+
+return{make:function(text,size){
+  var qr=new QRCode(-1,QRErrorCorrectLevel.M);
+  qr.addData(text);qr.make();
+  return qr;
+}};
+})();
+
+function drawQR(code,canvas){
+  try{
+    var qr=QRCodeMin.make(code);
+    var count=qr.getModuleCount();
+    var cs=canvas.width;
+    var cell=Math.floor(cs/count);
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,cs,cs);
+    ctx.fillStyle='#000000';
+    for(var r=0;r<count;r++)for(var c=0;c<count;c++)
+      if(qr.isDark(r,c))ctx.fillRect(c*cell,r*cell,cell,cell);
+  }catch(e){
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#e74c3c';ctx.font='12px Arial';ctx.fillText('Дані занадто великі для QR',10,40);
+  }
+}
+
+// ══════════════════════════════════════════
+//  MODAL LOGIC
+// ══════════════════════════════════════════
+function openModal(){document.getElementById('reportText').textContent=generateReport();document.getElementById('reportModal').classList.add('show');document.body.style.overflow='hidden'}
+function closeModal(){document.getElementById('reportModal').classList.remove('show');document.body.style.overflow=''}
+
+addTap(document.getElementById('reportModal'),function(e){if(e.target===document.getElementById('reportModal'))closeModal()});
+addTap(document.getElementById('modalClose'),closeModal);
+addTap(document.getElementById('reportBtn'),openModal);
+
+addTap(document.getElementById('sendSignalBtn'),function(){
+  var text=generateReport();
+  if(navigator.share){navigator.share({text:text}).catch(function(err){if(err.name!=='AbortError')copyText(text)})}
+  else{copyText(text)}
+});
+addTap(document.getElementById('copyBtn'),function(){copyText(generateReport())});
+
+function copyText(text){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToast('✅ Скопійовано')}).catch(function(){fallbackCopy(text)})}
+  else{fallbackCopy(text)}
+}
+function fallbackCopy(text){
+  var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:-9999px;opacity:0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');showToast('✅ Скопійовано')}catch(e){showToast('❌ Не вдалося скопіювати')}
+  document.body.removeChild(ta);
+}
+
+// SHARE DATA BUTTON → show QR modal
+addTap(document.getElementById('shareDataBtn'),function(){
+  var code=encodeShareCode();
+  if(!code){showToast('❌ Немає даних для передачі');return}
+  document.getElementById('shareCodeBox').textContent=code;
+  var canvas=document.getElementById('qrCanvas');
+  // Resize canvas for bigger display
+  canvas.width=220;canvas.height=220;
+  drawQR(code,canvas);
+  document.getElementById('qrModal').classList.add('show');
+});
+
+addTap(document.getElementById('copyCodeBtn'),function(){
+  var code=document.getElementById('shareCodeBox').textContent;
+  copyText(code);
+});
+
+addTap(document.getElementById('qrClose'),function(){
+  document.getElementById('qrModal').classList.remove('show');
+});
+
+addTap(document.getElementById('qrModal'),function(e){
+  if(e.target===document.getElementById('qrModal'))document.getElementById('qrModal').classList.remove('show');
+});
+
+// IMPORT BUTTON
+addTap(document.getElementById('importBtn'),function(){
+  closeModal();
+  document.getElementById('importInput').value='';
+  document.getElementById('importModal').classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){document.getElementById('importInput').focus()},200);
+});
+
+function closeImportModal(){
+  document.getElementById('importModal').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+addTap(document.getElementById('importCancelBtn'),closeImportModal);
+addTap(document.getElementById('importModal'),function(e){
+  if(e.target===document.getElementById('importModal'))closeImportModal();
+});
+
+// Allow text input in textarea
+document.getElementById('importInput').addEventListener('touchstart',function(e){e.stopPropagation()},{passive:true});
+document.getElementById('importInput').addEventListener('click',function(e){e.stopPropagation()});
+
+addTap(document.getElementById('importConfirmBtn'),function(){
+  var code=document.getElementById('importInput').value.trim();
+  if(!code){showToast('⚠️ Введіть код');return}
+  var payload=decodeShareCode(code);
+  if(!payload){showToast('❌ Невірний код');return}
+  if(!confirm('Імпортувати дані? Поточні дані в відповідних розділах будуть замінені.'))return;
+  applyImport(payload);
+  closeImportModal();
+  showToast('✅ Дані імпортовано');
+});
+
+// CLEAR
+function clearAll(){
+  if(!confirm('Очистити всі введені дані?'))return;
+  SECTIONS.forEach(function(sec){STATE[sec.id]={};sec.subs.forEach(function(sub){STATE[sec.id][sub.id]=[{b:'',q:''}]})});
+  saveState();render();showToast('🗑 Дані очищено');
+}
+addTap(document.getElementById('clearDataBtn'),function(){clearAll();closeModal()});
+addTap(document.getElementById('clearBtn'),clearAll);
+
+// ══════════════════════════════════════════
+//  INSTALL BANNER
+// ══════════════════════════════════════════
+(function(){
+  var isStandalone=window.navigator.standalone||window.matchMedia('(display-mode: standalone)').matches;
+  var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(!isStandalone&&isIOS&&!sessionStorage.getItem('banner_closed'))document.getElementById('installBanner').classList.add('show');
+  addTap(document.getElementById('installClose'),function(){document.getElementById('installBanner').classList.remove('show');sessionStorage.setItem('banner_closed','1')});
+})();
+
+// SERVICE WORKER
+if('serviceWorker' in navigator){
+  var sw="self.addEventListener('install',function(e){self.skipWaiting()});self.addEventListener('activate',function(e){e.waitUntil(clients.claim())});self.addEventListener('fetch',function(e){e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(resp){return caches.open('ammo-v4').then(function(c){c.put(e.request,resp.clone());return resp})})}))})";
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(function(){});
+}
+
+document.getElementById('headerDate').textContent=new Date().toLocaleDateString('uk-UA',{weekday:'long',day:'numeric',month:'long'});
+render();
+</script>
+</body>
+</html>
